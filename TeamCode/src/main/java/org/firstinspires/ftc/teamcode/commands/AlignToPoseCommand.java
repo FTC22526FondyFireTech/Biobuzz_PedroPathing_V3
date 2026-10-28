@@ -81,7 +81,6 @@ public class AlignToPoseCommand extends CommandBase {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         headingController.reset();
         headingController.setPID(kP, kI, kD);
-        drive.startTeleopDrive();
         telemetryM.addData("INIT", "AimAtPoseCommand");
         telemetryM.update();
     }

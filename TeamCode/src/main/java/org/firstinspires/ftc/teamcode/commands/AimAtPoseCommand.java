@@ -75,7 +75,6 @@ public class AimAtPoseCommand extends CommandBase {
 
         headingController.reset();
         headingController.setPID(kP, kI, kD);
-        drive.startTeleopDrive();
     }
 
     @Override

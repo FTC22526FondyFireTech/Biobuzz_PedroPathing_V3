@@ -77,7 +77,6 @@ public class AimAtLLTXCommand extends CommandBase {
     public void initialize() {
         headingController.reset();
         headingController.setPID(headingkP, headingkI, headingkD);
-        drive.startTeleopDrive();
     }
 
     @Override

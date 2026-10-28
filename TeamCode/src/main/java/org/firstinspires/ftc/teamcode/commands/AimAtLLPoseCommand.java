@@ -84,7 +84,6 @@ public class AimAtLLPoseCommand extends CommandBase {
         headingController.reset();
         headingController.setPID(headingkP, headingkI, headingkD);
         strafeController.setPID(strafekP, strafekI, strafekD);
-        drive.startTeleopDrive();
     }
 
     @Override

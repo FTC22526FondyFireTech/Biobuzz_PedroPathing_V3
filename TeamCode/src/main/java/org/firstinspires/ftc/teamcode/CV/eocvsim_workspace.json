@@ -1,0 +1,7 @@
+{
+  "sourcesPath" : ".",
+  "resourcesPath" : ".",
+  "excludedPaths" : [ ],
+  "excludedFileExtensions" : [ ],
+  "eocvSimVersion" : "2027.0.0"
+}

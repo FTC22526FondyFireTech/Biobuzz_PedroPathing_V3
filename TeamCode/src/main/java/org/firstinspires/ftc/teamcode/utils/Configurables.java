@@ -10,6 +10,11 @@ public class Configurables {
     public static boolean showEncoderTelemetry = false;
     public static boolean showMotorTelemetry = false;
     public static boolean showDebugTelemetry = false;
+
+    public static boolean showPollenTelemetry = false;
+    public static boolean showPollenDebug = false;
+    public static boolean showNectarTelemetry = false;
+    public static boolean showNectarDebug = false;
     public static boolean showIntakeTelemetry = false;
 
 

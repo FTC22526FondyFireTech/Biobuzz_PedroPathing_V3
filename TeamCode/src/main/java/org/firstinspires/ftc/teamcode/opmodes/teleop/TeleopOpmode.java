@@ -80,16 +80,11 @@ public class TeleopOpmode extends CommandOpMode {
         return String.format(Locale.US, "%.3f", v * 39.37);
     }
 
-
-
-
-
     @Override
     public void initialize() {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
 
         telemetryM.update(telemetry);
-
 
 
         if (!GlobalData.isBlueAlliance() && !GlobalData.isRedAlliance())
@@ -209,7 +204,7 @@ public class TeleopOpmode extends CommandOpMode {
 
             drive.setRobotCentric(driverGamepad.getGamepadButton(
                     GamepadKeys.Button.RIGHT_BUMPER).get());
-        //    drive.showTelemetry(telemetryM);
+            //    drive.showTelemetry(telemetryM);
 
 
             //intake.showTelemetry(telemetryM);
@@ -221,59 +216,13 @@ public class TeleopOpmode extends CommandOpMode {
             dist = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
             angle = getAngleToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
 
-            telemetryM.addData("NECTAactRRPM",nss.getNectarShooterRPM());
-            telemetryM.addData("NectarTGTRPM",nss.getTargetRPM());
-            telemetryM.addData("NectarFF",nss.ff);
-            telemetryM.addData("NectarPID",nss.pidout);
 
-            telemetryM.addData("POLActRRPM",pss.getPollenShooterRPM());
-            telemetryM.addData("PollrTGTRPM",nss.getTargetRPM());
-            telemetryM.addData("PollFF",pss.ff);
-            telemetryM.addData("PollenPID",pss.pidout);
-
-
-//            telemetryM.addData("DistFromOdometry", f3(dist));
-//            telemetryM.addData("AngleFromOdometry", f3(angle));
-//
-//            telemetryM.addData("TX", f3(GlobalData.getActiveHiveTargetPose().x()));
-//            telemetryM.addData("TY", f3(GlobalData.getActiveHiveTargetPose().y()));
-
-            List<LLResultTypes.FiducialResult> fr = vss.getFiducialResults();
-
-            List<Integer> tagsSeen = vss.getTagsSeen(fr);
-//            telemetryM.addData("TagsSeen", tagsSeen);
-//
-//
-//            telemetryM.addData("ZoneFromTags", vss.findZoneFromTags(tagsSeen));
-//            telemetryM.addData("Current Zone", vss.getCurrentTagZone());
-//            telemetryM.addData("Is In Current Zone", vss.isInCurrentZone(fr));
-
-            if (!fr.isEmpty()) {
-                double[] temp = vss.getGroupTargetPose(fr);
-                double x = temp[0];
-                double y = temp[1];
-                double z = temp[2];
-                double yaw = temp[3];
-                double pitch = temp[4];
-
-//                telemetryM.addData("X", f3M2I(x));
-//                telemetryM.addData("Y", f3M2I(y));
-//                telemetryM.addData("Z", f3M2I(z));
-//                telemetryM.addData("Yaw", f3(yaw));
-//                telemetryM.addData("Z", f3(pitch));
-
-
-            }
-
-            LLResult result = vss.getLLResults();
-            if (result.isValid()) {
-
-//                telemetryM.addData("tx", f3(result.getTx()));
-//                telemetryM.addData("ty", f3(result.getTy()));
-//                telemetryM.addData("ta", f3(result.getTa()));
-//                telemetryM.addData("Tag Count", vss.getNumberTagsSeen(fr));
-
-            }
+            if (Configurables.showPollenTelemetry)
+                pss.showTelemetry(telemetryM);
+            if (Configurables.showNectarTelemetry)
+                nss.showTelemetry(telemetryM);
+            if (Configurables.showIntakeTelemetry)
+                intake.showTelemetry(telemetryM);
 
 
             telemetryM.update(telemetry);

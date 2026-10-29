@@ -53,7 +53,7 @@ public class AlignToPoseCommand extends CommandBase {
     private final MecanumDriveSubsystem drive;
     private Pose target;
     private DoubleSupplier forward;
-    private  DoubleSupplier strafe;
+    private DoubleSupplier strafe;
     private final PIDController headingController = new PIDController(kP, kI, kD);
 
     TelemetryManager telemetryM;
@@ -75,8 +75,8 @@ public class AlignToPoseCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        forward=()->0;
-        strafe=()->0;
+        forward = () -> 0;
+        strafe = () -> 0;
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         headingController.reset();
@@ -96,7 +96,7 @@ public class AlignToPoseCommand extends CommandBase {
                 + headingOffsetRad;
 
 
-        error =  (wrapAngle(desiredHeading - pose.heading()));
+        error = (wrapAngle(desiredHeading - pose.heading()));
 
         double turn = 0;
 
@@ -120,7 +120,7 @@ public class AlignToPoseCommand extends CommandBase {
             drive.drive(-forward.getAsDouble(), -strafe.getAsDouble(), turn);
         }
         // Pedro: positive turn = counterclockwise, matching positive heading error here.
-      //  drive.drive(forward.getAsDouble(), strafe.getAsDouble(), turn);
+        //  drive.drive(forward.getAsDouble(), strafe.getAsDouble(), turn);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class AlignToPoseCommand extends CommandBase {
     public double getDistanceToTarget(Pose targetPose, Pose robotPose) {
         double XDiff = targetPose.x() - robotPose.x();
         double YDiff = targetPose.y() - robotPose.y();
-        return Math.hypot(XDiff,YDiff);
+        return Math.hypot(XDiff, YDiff);
     }
 
 }

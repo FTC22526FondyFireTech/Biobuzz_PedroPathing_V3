@@ -25,7 +25,6 @@ import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 import org.firstinspires.ftc.teamcode.utils.Configurables;
 import org.firstinspires.ftc.teamcode.utils.FieldConstants;
-import org.firstinspires.ftc.teamcode.utils.GetRPMFromDistance;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 import org.firstinspires.ftc.teamcode.utils.PedroPaths;
 
@@ -67,7 +66,6 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
     private ElapsedTime autoTimer;
     private AutoCommandsSim acSim;
 
-    private GetRPMFromDistance grpmpollenfd;
     private int seqStep;
     private double distancetoTarget;
     private double targetRPMFromDistance;
@@ -90,9 +88,6 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
         vss = new VisionSubsysytem(this);
 
         acSim = new AutoCommandsSim(driveSim, pss, nss);
-
-
-        grpmpollenfd = new GetRPMFromDistance(driveSim, pss);
 
         GlobalData.autoHasRun = true;
 
@@ -160,6 +155,8 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
                                         parkFromSecondShoot()),
                                 Commands.sequence(
                                         moveForMissedShoot(),
+                                        Commands.runOnce(() -> follower.stop()),
+                                        new AlignToPoseCommandSim(driveSim),
                                         shoot(),
                                         parkFromStart()),
 

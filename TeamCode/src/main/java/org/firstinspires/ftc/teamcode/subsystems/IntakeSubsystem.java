@@ -138,10 +138,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
     public void showTelemetry(TelemetryManager telemetryM) {
-        if (Configurables.showIntakeTelemetry) {
             telemetryM.addData("IntakePower", getPower());
             telemetryM.addData("IntakeRPM", getVelocityRPM());
-        }
+            telemetryM.addData("IntakeRunning", intakeRunning);
+            telemetryM.addData("ArmPosition", getArmPosition());
+
     }
 
 

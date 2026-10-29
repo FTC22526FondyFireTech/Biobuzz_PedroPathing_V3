@@ -27,7 +27,6 @@ import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 import org.firstinspires.ftc.teamcode.utils.Configurables;
 import org.firstinspires.ftc.teamcode.utils.FieldConstants;
-import org.firstinspires.ftc.teamcode.utils.GetRPMFromDistance;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 
 import java.util.Collections;
@@ -60,7 +59,6 @@ public class LowHiveStartSim extends CommandOpMode {
 
     private AutoCommandsSim ac;
 
-    private GetRPMFromDistance grpmpollenfd;
 
 
     private ElapsedTime autoTimer;
@@ -104,7 +102,6 @@ public class LowHiveStartSim extends CommandOpMode {
 
         intake = new IntakeSubsystem(this.hardwareMap);
 
-        grpmpollenfd = new GetRPMFromDistance(driveSim, pss);
 
         GlobalData.autoHasRun = true;
 
@@ -249,13 +246,11 @@ public class LowHiveStartSim extends CommandOpMode {
 
                 distancetoTarget = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), driveSim.getOdometry().getRobotPose());
 
-                targetRPMFromDistance = grpmpollenfd.getPollenRPMFromDistanceSim(distancetoTarget);
 
                 //   pss.setTargetRPM(targetRPMFromDistance);
 
                 distancetoTarget = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), driveSim.getOdometry().getRobotPose());
 
-                targetRPMFromDistance = grpmpollenfd.getPollenRPMFromDistanceSim(distancetoTarget);
 
 
                 telemetryM.addData("Auto Timer", autoTimer.seconds());

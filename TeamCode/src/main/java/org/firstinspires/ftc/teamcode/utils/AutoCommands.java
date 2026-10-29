@@ -6,11 +6,9 @@ import com.seattlesolvers.solverslib.command.Commands;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 import com.seattlesolvers.solverslib.command.WaitUntilCommand;
 
-import org.firstinspires.ftc.teamcode.simulator.drivetrains.MecanumDriveSubsystemSimulation;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.NectarShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 
 public class AutoCommands {
 
@@ -29,7 +27,7 @@ public class AutoCommands {
         this.nss = nss;
     }
 
-    public Command autoShootCommand() {
+    public Command autoShootPollenCommand() {
         return Commands.sequence(
                 pss.setTargetRPMCommand(startShootRPM),
                 pss.runPollenShooterAtVelocityCommand(),

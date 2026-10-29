@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.simulator.opmodes.auto;
 
-import static com.pedropathing.api.Paths.curve;
-import static com.pedropathing.api.Paths.line;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -30,7 +28,6 @@ import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 import org.firstinspires.ftc.teamcode.utils.Configurables;
 import org.firstinspires.ftc.teamcode.utils.FieldConstants;
-import org.firstinspires.ftc.teamcode.utils.GetRPMFromDistance;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 
 import java.util.Collections;
@@ -70,7 +67,7 @@ public class RaisedHiveStartPickupParkSim extends CommandOpMode {
     private ElapsedTime autoTimer;
     private AutoCommandsSim acSim;
 
-    private GetRPMFromDistance grpmpollenfd;
+
     private int seqStep;
     private double distancetoTarget;
     private double targetRPMFromDistance;
@@ -95,7 +92,7 @@ public class RaisedHiveStartPickupParkSim extends CommandOpMode {
         acSim = new AutoCommandsSim(driveSim, pss, nss);
 
 
-        grpmpollenfd = new GetRPMFromDistance(driveSim, pss);
+
 
         GlobalData.autoHasRun = true;
 
@@ -154,7 +151,7 @@ public class RaisedHiveStartPickupParkSim extends CommandOpMode {
                 Commands.defer(() -> new ConditionalCommand(
                                 park(),
                                 Commands.sequence(
-                                        moveForSecondShoot(),
+                                        moveFoMissedShoot(),
                                         shoot(),
                                         parkFromStart()),
 
@@ -181,7 +178,7 @@ public class RaisedHiveStartPickupParkSim extends CommandOpMode {
                 checkSequenceStepCommand());
     }
 
-    public Command moveForSecondShoot() {
+    public Command moveFoMissedShoot() {
 
         return Commands.sequence(
                 new FollowPathCommand(follower, returnToStart, true),

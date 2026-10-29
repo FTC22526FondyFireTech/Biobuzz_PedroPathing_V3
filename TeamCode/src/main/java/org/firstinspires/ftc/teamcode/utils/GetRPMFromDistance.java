@@ -12,35 +12,20 @@ public class GetRPMFromDistance {
     PollenShooterSubsystem pss;
 
     NectarShooterSubsystem nss;
-    MecanumDriveSubsystemSimulation driveSim;
-
     MecanumDriveSubsystem drive;
 
     RollingAverage pollenRa = new RollingAverage(10);
     RollingAverage nectarRa = new RollingAverage(10);
-
-    public GetRPMFromDistance(MecanumDriveSubsystemSimulation driveSim, PollenShooterSubsystem pss) {
-        this.pss = pss;
-        this.driveSim = driveSim;
-    }
 
     public GetRPMFromDistance(MecanumDriveSubsystem drive, PollenShooterSubsystem pss) {
         this.pss = pss;
         this.drive = drive;
     }
 
+
     public GetRPMFromDistance(MecanumDriveSubsystem drive, NectarShooterSubsystem nss) {
         this.nss = nss;
         this.drive = drive;
-    }
-
-
-    public double getPollenRPMFromDistanceSim(double inches) {
-        double distToTarget = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), driveSim.getOdometry().getRobotPose());
-        double targetRPMFromDistance = pss.getTargetRPMFromDistance(distToTarget);
-        pollenRa.add(targetRPMFromDistance);
-        return pss.getTargetRPMFromDistance(distToTarget);
-
     }
 
     public double getPollenRPMFromDistance(double inches) {

@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import android.telecom.TelecomManager;
+
 import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.Command;
@@ -16,6 +19,8 @@ import com.seattlesolvers.solverslib.util.InterpLUT;
 import org.firstinspires.ftc.teamcode.simulator.simulators.MotorSimulator;
 import org.firstinspires.ftc.teamcode.utils.Configurables;
 
+import java.util.Locale;
+
 @Configurable
 public class PollenShooterSubsystem extends SubsystemBase {
 
@@ -23,10 +28,9 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public static double pollenShooterKi = 0;
     public static double pollenShooterKd = 0;
     public static boolean changePollenVelocityCoefficents = false;
-
-    public static double autoShootRPM = 1000;
-
-    public static double autoSecondShootRPM = 900;
+    private double targetRPM = 4000;
+    public static double autoShootRPM = 4000;
+    public static double autoSecondShootRPM = 3500;
 
     public static double holdPosition = 0;
     public static double shootPosition = .5;
@@ -35,27 +39,19 @@ public class PollenShooterSubsystem extends SubsystemBase {
     private MotorSimulator shooterMotorSim;
 
     private boolean direction;
-    public SimpleMotorFeedforward sff;
 
-    public SlewRateLimiter slf;
 
     public PIDController pidController;
 
-    private double targetRPM = 4000;
-
+    public final double maxMotorRPM = 6000;
     private double maxShootRPM;
-
     private double minShootRPM;
-
     public double pidout;
-
+    private double ffRatio = .95 / maxMotorRPM;
     public double ff;
     public int tst;
 
-    public final double maxMotorRPM = 6000;
-
     InterpLUT pollenSpeeds;
-
     private Servo pollenShootServo;
     public double shooterServoTargetPosition = .05;
 
@@ -70,17 +66,27 @@ public class PollenShooterSubsystem extends SubsystemBase {
     private boolean runPollenShooterAtVelocity;
 
 
+    static String f3(double v) {
+        return String.format(Locale.US, "%.3f", v);
+    }
+
+    static String f0(double v) {
+        return String.format(Locale.US, "%.0f", v);
+    }
+
+    static String f3M2I(double v) {
+        return String.format(Locale.US, "%.3f", v * 39.37);
+    }
+
+
     public PollenShooterSubsystem(HardwareMap hardwareMap) {
         // specifying motor allows top rpm tp be read from motor
         if (!Configurables.doSimulation) {
             pollenShooterMotor = new MotorEx(hardwareMap, "pollen");
             pollenShooterMotor.setInverted(true);
-
-
-            slf = new SlewRateLimiter(1000);
             maxShootRPM = maxMotorRPM * .9;
             minShootRPM = maxShootRPM / 2;
-            cpr = 28;//pollenShooterMotor.getCPR();
+            cpr = 28;
 
             pollenShootServo = hardwareMap.get(Servo.class, "pollenShoot");
             pollenShootServo.setDirection(Servo.Direction.FORWARD);
@@ -90,8 +96,6 @@ public class PollenShooterSubsystem extends SubsystemBase {
             shooterMotorSim.setInverted(true);
             direction = shooterMotorSim.isInverted();
         }
-
-        sff = new SimpleMotorFeedforward(.0, .9 / maxMotorRPM, 0);
 
         pidController = new PIDController(pollenShooterKp, pollenShooterKi, pollenShooterKd);
 
@@ -156,7 +160,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
         if (!Configurables.doSimulation) {
             tst++;
             pidout = pidController.calculate(getPollenShooterRPM(), targetRPM);
-            ff = sff.calculate(targetRPM);
+            ff = ffRatio * targetRPM;
             pollenShooterMotor.set(ff + pidout);
         } else shooterMotorSim.setPower(ff + pidout);
     }
@@ -246,6 +250,15 @@ public class PollenShooterSubsystem extends SubsystemBase {
 
         if (changePollenVelocityCoefficents) {
             pidController.setPID(pollenShooterKp, pollenShooterKi, pollenShooterKd);
+        }
+    }
+
+    public void showTelemetry(TelemetryManager telemetryM) {
+        telemetryM.addData("PollenTargetRPM", f0(getTargetRPM()));
+        telemetryM.addData("PollenActualRPM", f0(getPollenShooterRPM()));
+        if (Configurables.showPollenDebug) {
+            telemetryM.addData("PollenFF", ff);
+            telemetryM.addData("PollenPID", pidout);
         }
     }
 }

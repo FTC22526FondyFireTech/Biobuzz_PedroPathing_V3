@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.seattlesolvers.solverslib.command.CommandBase;
@@ -20,11 +21,11 @@ public class CheckIfOdometryZoneTagsSeen extends CommandBase {
 
     private int tagsZone;
 
-
     List<Integer> tagsSeen = Collections.emptyList();
     double Y;
     private final double yHiveRisenValue = 0;
     private boolean zoneTagsSeen;
+    List<LLResultTypes.FiducialResult> fr = Collections.emptyList();
 
     public CheckIfOdometryZoneTagsSeen(VisionSubsysytem vss, boolean lookForHiveUp) {
         this.vss = vss;
@@ -54,7 +55,7 @@ public class CheckIfOdometryZoneTagsSeen extends CommandBase {
         }
 
 
-        List<LLResultTypes.FiducialResult> fr = vss.getFiducialResults();
+        fr = vss.getFiducialResults();
         if (!fr.isEmpty()) {
             tagsSeen = vss.getTagsSeen(fr);
         }
@@ -66,14 +67,24 @@ public class CheckIfOdometryZoneTagsSeen extends CommandBase {
 
     }
 
-
     @Override
     public void end(boolean interrupted) {
     }
 
     @Override
     public boolean isFinished() {
-        return (zoneTagsSeen && lookForHiveUp) || (!zoneTagsSeen && lookForHiveDown);
+        return (!fr.isEmpty() && zoneTagsSeen && lookForHiveUp)
+                || (!fr.isEmpty() && !zoneTagsSeen && lookForHiveDown);
+    }
+
+    public void showTelemetry(TelemetryManager telemetryM){
+        telemetryM.addData("No Fiducial Results",fr.isEmpty());
+        telemetryM.addData("Zone", tagsZone);
+        telemetryM.addData("Y", Y);
+        telemetryM.addData("Tags Seen", tagsSeen);
+        telemetryM.addData("Hive Rising", vss.hiveRising);
+        telemetryM.addData("Hive Falling", vss.hiveFalling);
+        telemetryM.addData("Hive Still", vss.hiveStill);
     }
 
 

@@ -27,6 +27,7 @@ import org.firstinspires.ftc.teamcode.utils.FieldConstants;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Locale;
 
 //@Autonomous(name = "Blank")
@@ -119,11 +120,16 @@ public class TestOpModeSim extends CommandOpMode {
         driverGamepad.getGamepadButton(GamepadKeys.Button.BACK)
                 .whileActiveOnce(GlobalData.toggleAllianceCommand());
 
-
-//        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-//                .whenPressed(intake.armUpCommand());
-//        driverGamepad.getGamepadButton(GamepadKeys.Button.B)
-//                .whenPressed(intake.armDownCommand());
+        driverGamepad.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(
+                        Commands.defer
+                                (() ->
+                                                Commands.runOnce(() -> follower.setPose(driveSim.getOdometry().getRobotPose()))
+                                                        .andThen(
+                                                                new FollowPathCommand(follower,
+                                                                        PedroPaths.line(driveSim.getOdometry().getRobotPose(), GlobalData.getActiveStartPose()),
+                                                                        true)),
+                                        Collections.emptyList()));
 
 
 //                //.whenPressed(shooter2.setMotorVelocityModeCommand())
@@ -166,16 +172,16 @@ public class TestOpModeSim extends CommandOpMode {
 
             driveSim.showTelemetry(telemetryM);
 
-        double distToTarget = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), driveSim.getOdometry().getRobotPose());
-        //  pollenShooter.setTargetRPMFromDistance(distToTarget);
-        double pollenRPM = pollenShooter.getTargetRPM();
-        double nectarRPM = nectarShooter.getTargetRPMFromDistance(distToTarget);
-          telemetryM.addData("ENDPOSX", parkFromStart.endPose().x());
+            double distToTarget = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), driveSim.getOdometry().getRobotPose());
+            //  pollenShooter.setTargetRPMFromDistance(distToTarget);
+            double pollenRPM = pollenShooter.getTargetRPM();
+            double nectarRPM = nectarShooter.getTargetRPMFromDistance(distToTarget);
+            telemetryM.addData("ENDPOSX", parkFromStart.endPose().x());
 //            telemetryM.addData("ENDPOSX=Y", parkFromStart.endPose().y());
 //            telemetryM.addData("ENDPOSH", parkFromStart.endPose().heading());
 //            telemetryM.addData("ROBPOSX", driveSim.getOdometry().getX());
 //            telemetryM.addData("ROBPOSY", driveSim.getOdometry().getY());
-     //       telemetryM.addData("ROBPOSH", driveSim.getOdometry().getHeading());
+            //       telemetryM.addData("ROBPOSH", driveSim.getOdometry().getHeading());
 //
 //            telemetryM.addData("DistRem", follower.remainingDistance());
 //            telemetryM.addData("PathCompl", follower.completion());
@@ -185,26 +191,26 @@ public class TestOpModeSim extends CommandOpMode {
 //            telemetryM.addData("Dist2Tgt,in", f1(distToTarget));
 //            telemetryM.addData("Tgt Pollen RPM", f0(pollenRPM));
 //            telemetryM.addData("Tgt Nectar RPM", f0(nectarRPM));
-        telemetryM.addData("Follower Is Busy", follower.isBusy());
-        telemetryM.update(telemetry);
+            telemetryM.addData("Follower Is Busy", follower.isBusy());
+            telemetryM.update(telemetry);
 
+        }
+
+        reset();
     }
 
-    reset();
-}
+    Path buildBezierLine(Pose start, Pose end) {
+        return PedroPaths.line(start, end);
+    }
 
-        Path buildBezierLine(Pose start, Pose end) {
-            return PedroPaths.line(start, end);
-        }
+    Path buildBezierCurve(Pose start, Pose control, Pose end) {
+        return PedroPaths.curve(start, control, end);
+    }
 
-        Path buildBezierCurve(Pose start, Pose control, Pose end) {
-            return PedroPaths.curve(start, control, end);
-        }
-
-        public double getDistanceToTarget(Pose targetPose, Pose robotPose) {
-            double XDiff = targetPose.x() - robotPose.x();
-            double YDiff = targetPose.y() - robotPose.y();
-            return Math.hypot(XDiff, YDiff);
-        }
+    public double getDistanceToTarget(Pose targetPose, Pose robotPose) {
+        double XDiff = targetPose.x() - robotPose.x();
+        double YDiff = targetPose.y() - robotPose.y();
+        return Math.hypot(XDiff, YDiff);
+    }
 
 }

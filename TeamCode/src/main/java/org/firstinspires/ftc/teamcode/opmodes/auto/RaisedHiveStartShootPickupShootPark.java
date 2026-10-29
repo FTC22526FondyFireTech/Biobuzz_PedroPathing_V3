@@ -49,7 +49,7 @@ import java.util.Collections;
  *
  *
  */
-@Autonomous(name = "Sim Raised Hive Start Extended", group = "Auto")
+@Autonomous(name = "Raised Hive Start Extended", group = "Auto")
 public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
     private MecanumDriveSubsystem drive;
     private IntakeSubsystem intake;

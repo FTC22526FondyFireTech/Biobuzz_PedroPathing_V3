@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.test;
 import com.bylazar.camerastream.PanelsCameraStream;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.WebcamSubsystem;
 //@Autonomous(name = "Blank")
 @TeleOp(name = "WebcamOpMode")
 
+@Disabled
 public class WebcamOpMode extends CommandOpMode {
 
     TelemetryManager telemetryM;

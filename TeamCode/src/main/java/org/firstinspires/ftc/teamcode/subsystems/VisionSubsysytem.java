@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.LLStatus;
@@ -70,10 +71,6 @@ public class VisionSubsysytem extends SubsystemBase {
         opMode.telemetry.setMsTransmissionInterval(11);
 
         limelight.pipelineSwitch(fiducialPipeline);
-
-
-        // limelight.updateRobotOrientation(yaw); //MT2 if used
-
         /*
          * Starts polling for data.  If you neglect to call start(), getLatestResult() will return null.
          */
@@ -111,19 +108,6 @@ public class VisionSubsysytem extends SubsystemBase {
 
     public LLResult getLLResults() {
         return limelight.getLatestResult();
-    }
-
-
-    public double getPitch(List<LLResultTypes.FiducialResult> llresults) {
-        return llresults.get(0).getTargetPoseRobotSpace().getOrientation().getPitch();
-    }
-
-    public double getRoll(LLResult result) {
-        return result.getBotpose().getOrientation().getRoll();
-    }
-
-    public double getYaw(LLResult result) {
-        return result.getBotpose().getPosition().x;
     }
 
 
@@ -169,7 +153,6 @@ public class VisionSubsysytem extends SubsystemBase {
             temp[2] = pose.getPosition().z;
             temp[3] = pose.getOrientation().getYaw();
             temp[4] = pose.getOrientation().getPitch();
-
         }
         return temp;
     }
@@ -258,6 +241,15 @@ public class VisionSubsysytem extends SubsystemBase {
     @Override
     public void periodic() {
 
+    }
+
+    public void showTelemetry(TelemetryManager telemetryM){
+        telemetryM.addData("LL Temperature", getTemoerature());
+        telemetryM.addData("LL CPU", getCpu());
+        telemetryM.addData("LL FPS", getFPS());
+        telemetryM.addData("LL Pipeline Number", getPipelineNumber());
+        telemetryM.addData("LL Pipeline Type", getPipelineType());
+        telemetryM.addData("LL Status", getName());
     }
 }
 

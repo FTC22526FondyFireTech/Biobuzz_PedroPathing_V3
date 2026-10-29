@@ -6,6 +6,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.Commands;
 import com.seattlesolvers.solverslib.command.WaitCommand;
@@ -27,6 +28,7 @@ import org.firstinspires.ftc.teamcode.utils.GlobalData;
  * since both factories hand back a real {@code Follower}.
  */
 @Autonomous(name = "Pedro Auto Samples", group = "Test")
+@Disabled
 public class PedroAutoSamples extends CommandOpMode {
 
     private MecanumDriveSubsystem drive;

@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.utils.GlobalData;
 import java.util.List;
 import java.util.Locale;
 
-@TeleOp(name = "Device Test")
+@TeleOp(name = "Device Test", group = "Teleop")
 //@Disabled
 
 public class DeviceTestOpmode extends CommandOpMode {
@@ -194,11 +194,11 @@ public class DeviceTestOpmode extends CommandOpMode {
             angle = getAngleToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
 
             telemetryM.addData("PSOn", pss.isRunPollenShooterAtVelocity());
-            telemetryM.addData("PSSPID",pss.pidout);
-            telemetryM.addData("PSSSFF",pss.ff);
-            telemetryM.addData("PSTGTRPM",pss.getTargetRPM());
+            telemetryM.addData("PSSPID", pss.pidout);
+            telemetryM.addData("PSSSFF", pss.ff);
+            telemetryM.addData("PSTGTRPM", pss.getTargetRPM());
 
-            telemetryM.addData("POLLENRPM",pss.getPollenShooterRPM());
+            telemetryM.addData("POLLENRPM", pss.getPollenShooterRPM());
 //            telemetryM.addData("DistFromOdometry", f3(dist));
 //            telemetryM.addData("AngleFromOdometry", f3(angle));
 //

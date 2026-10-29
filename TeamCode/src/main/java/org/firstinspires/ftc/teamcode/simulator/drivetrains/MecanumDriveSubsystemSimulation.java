@@ -137,6 +137,9 @@ public class MecanumDriveSubsystemSimulation extends SubsystemBase {
         Drawing.drawRobot(odometry.getRobotPose(), GlobalData.robotLook);
         Drawing.drwaLine(odometry.getRobotPose().x(), odometry.getRobotPose().y(),
                 GlobalData.getActiveHiveTargetPose().x(), GlobalData.getActiveHiveTargetPose().y());
+        Drawing.drwaLine(odometry.getRobotPose().x(), odometry.getRobotPose().y(),
+                GlobalData.getActiveStartPose().x(), GlobalData.getActiveStartPose().y());
+
         Drawing.sendPacket();
 
     }

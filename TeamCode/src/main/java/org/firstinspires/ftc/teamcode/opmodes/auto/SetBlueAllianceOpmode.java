@@ -7,8 +7,7 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 
-@Autonomous(name = "Set Blue Alliance", group = "Auto")
-//@TeleOp(name = "Set Blue Allianced")
+@Autonomous(name = "Alliance Blue", group = "Auto")
 //@Disabled
 
 public class SetBlueAllianceOpmode extends CommandOpMode {

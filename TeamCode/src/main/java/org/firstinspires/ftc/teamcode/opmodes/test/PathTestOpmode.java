@@ -5,6 +5,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.Commands;
@@ -27,7 +28,7 @@ import java.util.Collections;
 
 //@Autonomous(name = "Blank")
 @TeleOp(name = "Path Test")
-//@Disabled
+@Disabled
 
 public class PathTestOpmode extends CommandOpMode {
     TelemetryManager telemetryM;

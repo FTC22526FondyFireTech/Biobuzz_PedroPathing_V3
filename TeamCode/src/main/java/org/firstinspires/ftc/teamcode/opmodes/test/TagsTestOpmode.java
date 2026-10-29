@@ -5,6 +5,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.math.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
@@ -22,7 +23,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @TeleOp(name = "TagsTest")
-//@Disabled
+@Disabled
 
 public class TagsTestOpmode extends CommandOpMode {
 

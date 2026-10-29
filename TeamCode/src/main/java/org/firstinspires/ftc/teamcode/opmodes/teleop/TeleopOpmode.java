@@ -164,21 +164,19 @@ public class TeleopOpmode extends CommandOpMode {
                                 new AlignToPoseCommand(drive),
                         Collections.emptyList()));
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(Commands.defer(() ->
-                                new DriveToPoseCommand(drive, GlobalData.getActiveStartPose()),
-                        Collections.emptyList()));
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
+        driverGamepad.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(
                         Commands.defer
-                                (() -> Commands.runOnce(() -> follower.setPose(drive.getPose()))
-                                                .andThen(
-                                                        new FollowPathCommand(follower,
-                                                                PedroPaths.line(drive.getPose(), GlobalData.getActiveStartPose()),
-                                                                false)),
+                                (() -> Commands.sequence(
+                                                Commands.runOnce(() -> follower.setPose(drive.getPose())),
+                                                new FollowPathCommand(follower,
+                                                        PedroPaths.line(drive.getPose(), GlobalData.getActiveStartPose()),
+                                                        false),
+                                                new AlignToPoseCommand(drive)),
                                         Collections.emptyList()));
 
+        //  driverGamepad.getGamepadButton(GamepadKeys.Button.a)
 
         double rpmChange = 100;
         driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)

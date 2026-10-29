@@ -13,6 +13,7 @@ import com.seattlesolvers.solverslib.command.Commands;
 import com.seattlesolvers.solverslib.command.ConditionalCommand;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 
+import org.firstinspires.ftc.teamcode.commands.AlignToPoseCommand;
 import org.firstinspires.ftc.teamcode.commands.CheckIfOdometryZoneTagsSeen;
 import org.firstinspires.ftc.teamcode.utils.PedroPaths;
 import org.firstinspires.ftc.teamcode.commands.FollowPathCommand;
@@ -186,8 +187,9 @@ public class RaisedHiveStartPickupPark extends CommandOpMode {
                 Commands.parallel(
                         intake.stopIntakeCommand(),
                         intake.armUpCommand()),
-                Commands.waitMillis(500), Commands.none());
-        // new AlignToPoseCommandSim(driveSim));
+                Commands.waitMillis(500),    Commands.runOnce(() -> follower.stop()),
+                Commands.defer(() -> new AlignToPoseCommand(drive).asProxy(),
+                        Collections.emptyList()));
     }
 
     private Command shoot() {

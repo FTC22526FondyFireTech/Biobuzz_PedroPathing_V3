@@ -253,12 +253,12 @@ public class RaisedHiveStartPickupParkSim extends CommandOpMode {
 
     public void buildPaths() {
 
-        approachFlowerPath = line(startPose, flowerApproachPose);
-        pickupFlowerPath = line(flowerApproachPose, flowerPickupPose);
-        retractFlowerPath = line(flowerPickupPose, flowerApproachPose);
-        returnToStart = line(flowerApproachPose, startPose);
-        parkPath = line(flowerPickupPose, parkPose);
-        parkFromStartPath = curve(startPose, controlPointPose, parkPoseFromStart);
+        approachFlowerPath = PedroPaths.line(startPose, flowerApproachPose);
+        pickupFlowerPath = PedroPaths.line(flowerApproachPose, flowerPickupPose);
+        retractFlowerPath = PedroPaths.line(flowerPickupPose, flowerApproachPose);
+        returnToStart = PedroPaths.line(flowerApproachPose, startPose);
+        parkPath = PedroPaths.line(flowerPickupPose, parkPose);
+        parkFromStartPath = PedroPaths.curve(startPose, controlPointPose, parkPoseFromStart);
     }
 
 

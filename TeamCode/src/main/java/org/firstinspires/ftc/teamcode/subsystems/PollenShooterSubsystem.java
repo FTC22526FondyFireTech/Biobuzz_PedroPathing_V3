@@ -24,7 +24,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public static double pollenShooterKd = 0;
     public static boolean changePollenVelocityCoefficents = false;
 
-public static double autoShootRPM = 1000;
+    public static double autoShootRPM = 1000;
 
     public static double autoSecondShootRPM = 900;
 
@@ -41,7 +41,7 @@ public static double autoShootRPM = 1000;
 
     public PIDController pidController;
 
-    private double targetRPM = 1000;
+    private double targetRPM = 4000;
 
     private double maxShootRPM;
 
@@ -156,8 +156,8 @@ public static double autoShootRPM = 1000;
         if (!Configurables.doSimulation) {
             tst++;
             pidout = pidController.calculate(getPollenShooterRPM(), targetRPM);
-           ff= sff.calculate(targetRPM);
-            pollenShooterMotor.set(ff +pidout);
+            ff = sff.calculate(targetRPM);
+            pollenShooterMotor.set(ff + pidout);
         } else shooterMotorSim.setPower(ff + pidout);
     }
 
@@ -244,8 +244,8 @@ public static double autoShootRPM = 1000;
             runPollenShooterAtVelocity();
         }
 
-        if(changePollenVelocityCoefficents){
-            pidController.setPID(pollenShooterKp,pollenShooterKi,pollenShooterKd);
+        if (changePollenVelocityCoefficents) {
+            pidController.setPID(pollenShooterKp, pollenShooterKi, pollenShooterKd);
         }
     }
 }

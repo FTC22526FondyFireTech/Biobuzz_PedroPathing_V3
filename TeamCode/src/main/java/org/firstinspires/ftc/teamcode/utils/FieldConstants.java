@@ -84,6 +84,7 @@ public class FieldConstants {
     private final Pose point2Control3 = factory.of(60, 112, 0);
 
     public static final Pose redAllianceParkfromStartControlPointPose = factory.of(20, 70, 0);
+    public static final Pose redSecondMoveToShootControlPointPose = factory.of(22, 115, 0);
     public static final Pose lowHiveStartControlPointPose = factory.of(53, 108, 0);
 
     public static Pose redAllianceWallFlowerApproachPose =

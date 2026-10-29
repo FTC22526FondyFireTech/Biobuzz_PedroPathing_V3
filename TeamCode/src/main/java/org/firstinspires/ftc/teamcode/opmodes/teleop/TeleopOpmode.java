@@ -81,26 +81,7 @@ public class TeleopOpmode extends CommandOpMode {
     }
 
 
-    /**
-     * Teleop Buttons
-     * <p>
-     * Start Intake
-     * Stop Intake
-     * Lower Arm Hold/Release?
-     * Raise Arm
-     * <p>
-     * Start Pollen Shooter Combine with Nectar start.
-     * Start Nectar Shooter
-     * Stop Pollen Shooter Combine with Nectar stop.
-     * Stop Nectar Shooter
-     * <p>
-     * Lock on Target Hold
-     * <p>
-     * Preset Pose (if Odometry off)
-     * Toggle Alliance (if wrong somehow)
-     *
-     *
-     */
+
 
 
     @Override
@@ -109,13 +90,7 @@ public class TeleopOpmode extends CommandOpMode {
 
         telemetryM.update(telemetry);
 
-        if (!Configurables.doSimulation) {
-            if (GlobalData.autoHasRun) {
-                drive.setPose(GlobalData.robotPose);
-                GlobalData.autoHasRun = false;
-            } else
-                drive.setPose(FieldConstants.redAudienceParkPose);
-        }
+
 
         if (!GlobalData.isBlueAlliance() && !GlobalData.isRedAlliance())
             GlobalData.setRedAlliance();
@@ -136,7 +111,13 @@ public class TeleopOpmode extends CommandOpMode {
                 () -> -driverGamepad.getLeftX(),
                 () -> driverGamepad.getRightX()));
 
-
+        if (!Configurables.doSimulation) {
+            if (GlobalData.autoHasRun) {
+                drive.setPose(GlobalData.robotPose);
+                GlobalData.autoHasRun = false;
+            } else
+                drive.setPose(FieldConstants.redAudienceParkPose);
+        }
         vss = new VisionSubsysytem(this);
 
         pss = new PollenShooterSubsystem(this.hardwareMap);
@@ -228,7 +209,7 @@ public class TeleopOpmode extends CommandOpMode {
 
             drive.setRobotCentric(driverGamepad.getGamepadButton(
                     GamepadKeys.Button.RIGHT_BUMPER).get());
-            drive.showTelemetry(telemetryM);
+        //    drive.showTelemetry(telemetryM);
 
 
             //intake.showTelemetry(telemetryM);
@@ -240,22 +221,32 @@ public class TeleopOpmode extends CommandOpMode {
             dist = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
             angle = getAngleToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
 
+            telemetryM.addData("NECTAactRRPM",nss.getNectarShooterRPM());
+            telemetryM.addData("NectarTGTRPM",nss.getTargetRPM());
+            telemetryM.addData("NectarFF",nss.ff);
+            telemetryM.addData("NectarPID",nss.pidout);
 
-            telemetryM.addData("DistFromOdometry", f3(dist));
-            telemetryM.addData("AngleFromOdometry", f3(angle));
+            telemetryM.addData("POLActRRPM",pss.getPollenShooterRPM());
+            telemetryM.addData("PollrTGTRPM",nss.getTargetRPM());
+            telemetryM.addData("PollFF",pss.ff);
+            telemetryM.addData("PollenPID",pss.pidout);
 
-            telemetryM.addData("TX", f3(GlobalData.getActiveHiveTargetPose().x()));
-            telemetryM.addData("TY", f3(GlobalData.getActiveHiveTargetPose().y()));
+
+//            telemetryM.addData("DistFromOdometry", f3(dist));
+//            telemetryM.addData("AngleFromOdometry", f3(angle));
+//
+//            telemetryM.addData("TX", f3(GlobalData.getActiveHiveTargetPose().x()));
+//            telemetryM.addData("TY", f3(GlobalData.getActiveHiveTargetPose().y()));
 
             List<LLResultTypes.FiducialResult> fr = vss.getFiducialResults();
 
             List<Integer> tagsSeen = vss.getTagsSeen(fr);
-            telemetryM.addData("TagsSeen", tagsSeen);
-
-
-            telemetryM.addData("ZoneFromTags", vss.findZoneFromTags(tagsSeen));
-            telemetryM.addData("Current Zone", vss.getCurrentTagZone());
-            telemetryM.addData("Is In Current Zone", vss.isInCurrentZone(fr));
+//            telemetryM.addData("TagsSeen", tagsSeen);
+//
+//
+//            telemetryM.addData("ZoneFromTags", vss.findZoneFromTags(tagsSeen));
+//            telemetryM.addData("Current Zone", vss.getCurrentTagZone());
+//            telemetryM.addData("Is In Current Zone", vss.isInCurrentZone(fr));
 
             if (!fr.isEmpty()) {
                 double[] temp = vss.getGroupTargetPose(fr);
@@ -265,11 +256,11 @@ public class TeleopOpmode extends CommandOpMode {
                 double yaw = temp[3];
                 double pitch = temp[4];
 
-                telemetryM.addData("X", f3M2I(x));
-                telemetryM.addData("Y", f3M2I(y));
-                telemetryM.addData("Z", f3M2I(z));
-                telemetryM.addData("Yaw", f3(yaw));
-                telemetryM.addData("Z", f3(pitch));
+//                telemetryM.addData("X", f3M2I(x));
+//                telemetryM.addData("Y", f3M2I(y));
+//                telemetryM.addData("Z", f3M2I(z));
+//                telemetryM.addData("Yaw", f3(yaw));
+//                telemetryM.addData("Z", f3(pitch));
 
 
             }
@@ -277,10 +268,10 @@ public class TeleopOpmode extends CommandOpMode {
             LLResult result = vss.getLLResults();
             if (result.isValid()) {
 
-                telemetryM.addData("tx", f3(result.getTx()));
-                telemetryM.addData("ty", f3(result.getTy()));
-                telemetryM.addData("ta", f3(result.getTa()));
-                telemetryM.addData("Tag Count", vss.getNumberTagsSeen(fr));
+//                telemetryM.addData("tx", f3(result.getTx()));
+//                telemetryM.addData("ty", f3(result.getTy()));
+//                telemetryM.addData("ta", f3(result.getTa()));
+//                telemetryM.addData("Tag Count", vss.getNumberTagsSeen(fr));
 
             }
 

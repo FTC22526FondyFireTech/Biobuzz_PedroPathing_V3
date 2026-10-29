@@ -39,7 +39,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
 
     public PIDController pidController;
 
-    private double targetRPM = 1000;
+    private double targetRPM = 5000;
 
     private double maxShootRPM;
 
@@ -73,7 +73,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
             nectarShooterMotor = new MotorEx(hardwareMap, "nectar");
 
             slf = new SlewRateLimiter(1000);
-            maxShootRPM = maxMotorRPM * .9;
+            maxShootRPM = maxMotorRPM;
             minShootRPM = maxShootRPM / 2;
             nectarShootServo = hardwareMap.get(Servo.class, "nectarShoot");
             nectarShootServo.setDirection(Servo.Direction.FORWARD);
@@ -84,7 +84,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
             direction = shooterMotorSim.isInverted();
         }
 
-        sff = new SimpleMotorFeedforward(.0, .9 / maxMotorRPM, 0);
+        sff = new SimpleMotorFeedforward(.0, 1. / maxMotorRPM, 0);
 
         pidController = new PIDController(nectarShooterKp, nectarShooterKi, nectarShooterKd);
 
@@ -145,7 +145,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
      */
     public void runNectarShooterAtVelocity() {
         tst++;
-        pidout = pidController.calculate(getNectarShooterRPM());
+        pidout = pidController.calculate(getNectarShooterRPM(), targetRPM);
         ff = sff.calculate(targetRPM);
         if (!Configurables.doSimulation)
             nectarShooterMotor.set(ff + pidout);
@@ -235,6 +235,10 @@ public class NectarShooterSubsystem extends SubsystemBase {
     public void periodic() {
         if (runNectarShooterVelocity) {
             runNectarShooterAtVelocity();
+        }
+
+        if (changeNectarVelocityCoefficents) {
+            pidController.setPID(nectarShooterKp, nectarShooterKi, nectarShooterKd);
         }
     }
 }

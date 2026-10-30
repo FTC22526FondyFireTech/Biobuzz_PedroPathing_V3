@@ -35,7 +35,6 @@ public class FollowPathCommand extends CommandBase {
         this.path = path;
         this.holdEnd = holdEnd;
     }
-
     public FollowPathCommand setGlobalMaxPower(double power) {
         this.maxPower = power;
         return this;

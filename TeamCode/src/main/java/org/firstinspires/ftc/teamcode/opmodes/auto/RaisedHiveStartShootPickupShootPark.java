@@ -23,7 +23,6 @@ import org.firstinspires.ftc.teamcode.subsystems.NectarShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 import org.firstinspires.ftc.teamcode.utils.AutoCommands;
-import org.firstinspires.ftc.teamcode.utils.Configurables;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 import org.firstinspires.ftc.teamcode.utils.FieldConstants;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
@@ -100,7 +99,7 @@ public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
         parkPose = forAlliance(FieldConstants.redScoringParkPose, GlobalData.isBlueAlliance());
         parkPoseFromStart = forAlliance(FieldConstants.redAudienceParkPoseFromStart, isBlueAlliance);
 
-        secondShootPose = forAlliance(FieldConstants.scoringWallFlowerApproachPose, isBlueAlliance);
+        secondShootPose = forAlliance(FieldConstants.redScoringSecondShootPose, isBlueAlliance);
         controlPointPose = forAlliance(FieldConstants.redAllianceParkfromStartControlPointPose, isBlueAlliance);
         controlPointPoseSecondShoot = forAlliance(FieldConstants.redSecondMoveToShootControlPointPose, isBlueAlliance);
 
@@ -115,9 +114,10 @@ public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
         buildPaths();
         hiveHasFallen = false;
 
-
         schedule(
-                ShootPickupShootPark());
+                ShootPickupShootPark()
+        );
+
     }
 
 
@@ -160,7 +160,7 @@ public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
                                         shoot(),
                                         parkFromStart()),
 
-                                () ->!vss.getZoneTagsSeen()),
+                                () -> !vss.getZoneTagsSeen()),
 
                         Collections.emptyList()));
     }
@@ -180,7 +180,10 @@ public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
                 checkSequenceStepCommand(),
                 new FollowPathCommand(follower, retractFlowerPath),
                 new WaitCommand(250),
-                checkSequenceStepCommand());
+                checkSequenceStepCommand(),
+                Commands.parallel(
+                        intake.stopIntakeCommand(),
+                        intake.armUpCommand()));
     }
 
     public Command moveForMissedShoot() {
@@ -203,11 +206,6 @@ public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
 
     private Command shoot() {
         return ac.autoShootPollenCommand();
-    }
-
-
-    public Command park() {
-        return new FollowPathCommand(follower, parkPath, false);
     }
 
 

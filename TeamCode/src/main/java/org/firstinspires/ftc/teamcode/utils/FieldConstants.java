@@ -47,7 +47,7 @@ public class FieldConstants {
     public static Pose redAudienceParkPoseFromStart =
             factory.of(loadZoneXWidth,
                     redLoadZoneYStart,
-                    1.5*Math.PI);
+                    1.5 * Math.PI);
 
 
     // Flower Poses
@@ -72,9 +72,9 @@ public class FieldConstants {
     //Shoot poses
 
     public static Pose redScoringSecondShootPose =
-            factory.of(scoringWallFlowerPose.x(),
-                    fieldLength - robotLength / 2 - robotArmLengthAdder,
-                    Math.toRadians(80));
+            factory.of(scoringWallFlowerPose.x(),//48
+                    fieldLength - robotLength / 2 - robotArmLengthAdder - flowerApproachClearance,//117
+                    Math.toRadians(105));
     public static Pose scoringWallFlowerApproachControlPointPose = factory.of(55, 114, 0);
 
 
@@ -118,6 +118,7 @@ public class FieldConstants {
     public static Pose forAlliance(Pose redPose, boolean isBlue) {
         return isBlue ? toBlue(redPose) : redPose;
     }
+
     public static Pose toBlueXY(Pose red) {
         return factory.of(
                 FIELD - red.x(),

@@ -207,14 +207,15 @@ public class LowHiveStartSim extends CommandOpMode {
 
     public Command moveForSecondShoot() {
         return Commands.sequence(
-                new FollowPathCommand(follower, moveForSecondShootPath),
-                //  checkSequenceStepCommand(),
+                new FollowPathCommand(follower, moveForSecondShootPath,false),
+                  checkSequenceStepCommand(),
                 Commands.parallel(
                         intake.stopIntakeCommand(),
                         intake.armUpCommand()),
                 checkSequenceStepCommand(),
                 // Pedro 3 holds the end pose and re-commands the drivetrain every update, which
                 // would override the align command's turn. Release the hold first.
+                Commands.waitUntil(()->!follower.isBusy()),
                 Commands.runOnce(() -> follower.stop()),
                 Commands.defer(() -> new AlignToPoseCommandSim(driveSim).asProxy(),
                         Collections.emptyList()));
@@ -273,7 +274,7 @@ public class LowHiveStartSim extends CommandOpMode {
         parkPath = PedroPaths.curve(startPose, parkControlPointPose, parkPose);
         approachFlowerPath = PedroPaths.curve(startPose, controlPointPose, flowerApproachPose);
         pickupFlowerPath = PedroPaths.line(flowerApproachPose, flowerPickupPose);
-        moveForSecondShootPath = PedroPaths.line(flowerPickupPose, secondShootPose);
+        moveForSecondShootPath = PedroPaths.curve(flowerPickupPose, secondShootPose);
         parkAfterSecondShootPath = PedroPaths.line(secondShootPose, parkPose);
 
     }

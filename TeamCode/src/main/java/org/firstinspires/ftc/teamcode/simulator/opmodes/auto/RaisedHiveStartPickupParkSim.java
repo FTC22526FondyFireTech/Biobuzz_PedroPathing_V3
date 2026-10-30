@@ -169,7 +169,7 @@ public class RaisedHiveStartPickupParkSim extends CommandOpMode {
                         intake.runIntakeCommand(),
                         intake.armDownCommand()),
                 checkSequenceStepCommand(),
-                new WaitCommand(1000),
+                new WaitCommand(100),
                 new FollowPathCommand(follower, pickupFlowerPath).setGlobalMaxPower(0.25),
                 new WaitCommand(1500),
                 checkSequenceStepCommand(),
@@ -225,15 +225,15 @@ public class RaisedHiveStartPickupParkSim extends CommandOpMode {
 //            targetRPMFromDistance = grpmpollenfd.getPollenRPMFromDistanceSim(distancetoTarget);
 
 
-            telemetryM.addData("ENDPOSX", parkFromStartPath.endPose().x());
-            telemetryM.addData("ENDPOSX=Y", parkFromStartPath.endPose().y());
-            telemetryM.addData("ENDPOSH", parkFromStartPath.endPose().heading());
-            telemetryM.addData("ROBPOSX", driveSim.getOdometry().getX());
-            telemetryM.addData("ROBPOSY", driveSim.getOdometry().getY());
-            telemetryM.addData("ROBPOSH", driveSim.getOdometry().getHeading());
-            telemetryM.addData("DistRem", follower.remainingDistance());
-            telemetryM.addData("PathCompl", follower.completion());
-
+//            telemetryM.addData("ENDPOSX", parkFromStartPath.endPose().x());
+//            telemetryM.addData("ENDPOSX=Y", parkFromStartPath.endPose().y());
+//            telemetryM.addData("ENDPOSH", parkFromStartPath.endPose().heading());
+//            telemetryM.addData("ROBPOSX", driveSim.getOdometry().getX());
+//            telemetryM.addData("ROBPOSY", driveSim.getOdometry().getY());
+//            telemetryM.addData("ROBPOSH", driveSim.getOdometry().getHeading());
+//            telemetryM.addData("DistRem", follower.remainingDistance());
+//            telemetryM.addData("PathCompl", follower.completion());
+//
 
             telemetryM.addData("Auto Timer", autoTimer.seconds());
             telemetryM.addData("Follower Is Busy", follower.isBusy());

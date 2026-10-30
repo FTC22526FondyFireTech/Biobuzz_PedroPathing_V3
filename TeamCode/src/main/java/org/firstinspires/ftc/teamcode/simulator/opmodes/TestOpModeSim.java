@@ -123,12 +123,11 @@ public class TestOpModeSim extends CommandOpMode {
         driverGamepad.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(
                         Commands.defer
-                                (() ->
-                                                Commands.runOnce(() -> follower.setPose(driveSim.getOdometry().getRobotPose()))
-                                                        .andThen(
-                                                                new FollowPathCommand(follower,
-                                                                        PedroPaths.line(driveSim.getOdometry().getRobotPose(), GlobalData.getActiveStartPose()),
-                                                                        true)),
+                                (() -> Commands.runOnce(() -> follower.setPose(driveSim.getOdometry().getRobotPose()))
+                                                .andThen(
+                                                        new FollowPathCommand(follower,
+                                                                PedroPaths.line(driveSim.getOdometry().getRobotPose(), GlobalData.getActiveStartPose()),
+                                                                true)),
                                         Collections.emptyList()));
 
 

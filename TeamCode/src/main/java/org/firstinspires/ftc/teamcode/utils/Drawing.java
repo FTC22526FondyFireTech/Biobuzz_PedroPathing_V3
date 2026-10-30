@@ -23,8 +23,8 @@ public class Drawing {
         panelsField.setOffsets(PanelsField.INSTANCE.getPresets().getPEDRO_PATHING());
     }
 
-    public static void drwaLine(double x1, double y1, double x2, double y2){
-        panelsField.setStyle(robotLook);
+    public static void drawLine(double x1, double y1, double x2, double y2){
+        panelsField.setStyle(GlobalData.robotLook);
         panelsField.moveCursor(x1, y1);
         panelsField.line(x2, y2);
     }

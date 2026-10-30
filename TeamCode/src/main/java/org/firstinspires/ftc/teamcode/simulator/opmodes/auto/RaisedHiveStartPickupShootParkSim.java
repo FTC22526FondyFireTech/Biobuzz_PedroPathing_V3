@@ -98,7 +98,7 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
         parkPose = forAlliance(FieldConstants.redScoringParkPose, GlobalData.isBlueAlliance());
         parkPoseFromStart = forAlliance(FieldConstants.redAudienceParkPoseFromStart, isBlueAlliance);
 
-        secondShootPose = forAlliance(FieldConstants.scoringWallFlowerApproachPose, isBlueAlliance);
+        secondShootPose = forAlliance(FieldConstants.redScoringSecondShootPose, isBlueAlliance);
         controlPointPose = forAlliance(FieldConstants.redAllianceParkfromStartControlPointPose, isBlueAlliance);
         controlPointPoseSecondShoot = forAlliance(FieldConstants.redSecondMoveToShootControlPointPose, isBlueAlliance);
 
@@ -140,6 +140,7 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
 
 
     private Command ShootPickupShootPark() {
+
         return Commands.sequence(
 
                 pss.setTargetRPMCommand(PollenShooterSubsystem.autoShootRPM),
@@ -148,10 +149,20 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
                 pickup(),
                 Commands.defer(() -> new ConditionalCommand(
                                 Commands.sequence(
+                                        Commands.parallel(
+                                                intake.stopIntakeCommand(),
+                                                intake.armUpCommand()),
+                                        Commands.waitMillis(500),
                                         moveForSecondShoot(),
+                                        Commands.waitMillis(9500),
+                                        checkSequenceStepCommand(),
+                                        //    Commands.waitUntil(()->!follower.isBusy()),
                                         Commands.runOnce(() -> follower.stop()),
-                                        new AlignToPoseCommandSim(driveSim),
+                                        checkSequenceStepCommand(),
+                                     //   new AlignToPoseCommandSim(driveSim),
+                                     //   checkSequenceStepCommand(),
                                         shoot(),
+                                        checkSequenceStepCommand(),
                                         parkFromSecondShoot()),
                                 Commands.sequence(
                                         moveForMissedShoot(),
@@ -169,25 +180,20 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
     public Command pickup() {
         return Commands.sequence(
                 Commands.parallel(
-                        checkSequenceStepCommand(),
                         new FollowPathCommand(follower, approachFlowerPath),
                         intake.runIntakeCommand(),
                         intake.armDownCommand()),
-                checkSequenceStepCommand(),
                 new WaitCommand(1000),
                 new FollowPathCommand(follower, pickupFlowerPath).setGlobalMaxPower(0.25),
                 new WaitCommand(1500),
-                checkSequenceStepCommand(),
                 new FollowPathCommand(follower, retractFlowerPath),
-                new WaitCommand(250),
-                checkSequenceStepCommand());
+                new WaitCommand(250));
     }
 
     public Command moveForMissedShoot() {
 
         return Commands.sequence(
                 new FollowPathCommand(follower, returnToStart, true),
-                checkSequenceStepCommand(),
                 Commands.parallel(
                         intake.stopIntakeCommand(),
                         intake.armUpCommand()),
@@ -198,7 +204,7 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
     }
 
     public Command moveForSecondShoot() {
-        return new FollowPathCommand(follower, moveToSecondShootPath, true);
+        return new FollowPathCommand(follower, moveToSecondShootPath, false);
     }
 
     private Command shoot() {
@@ -237,14 +243,14 @@ public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
 //            targetRPMFromDistance = grpmpollenfd.getPollenRPMFromDistanceSim(distancetoTarget);
 
 
-            telemetryM.addData("ENDPOSX", parkFromStartPath.endPose().x());
-            telemetryM.addData("ENDPOSX=Y", parkFromStartPath.endPose().y());
-            telemetryM.addData("ENDPOSH", parkFromStartPath.endPose().heading());
+//            telemetryM.addData("ENDPOSX", parkFromStartPath.endPose().x());
+//            telemetryM.addData("ENDPOSX=Y", parkFromStartPath.endPose().y());
+//            telemetryM.addData("ENDPOSH", parkFromStartPath.endPose().heading());
             telemetryM.addData("ROBPOSX", driveSim.getOdometry().getX());
-            telemetryM.addData("ROBPOSY", driveSim.getOdometry().getY());
-            telemetryM.addData("ROBPOSH", driveSim.getOdometry().getHeading());
-            telemetryM.addData("DistRem", follower.remainingDistance());
-            telemetryM.addData("PathCompl", follower.completion());
+           telemetryM.addData("ROBPOSY", driveSim.getOdometry().getY());
+           telemetryM.addData("ROBPOSH", driveSim.getOdometry().getHeading());
+//            telemetryM.addData("DistRem", follower.remainingDistance());
+//            telemetryM.addData("PathCompl", follower.completion());
 
 
             telemetryM.addData("Auto Timer", autoTimer.seconds());

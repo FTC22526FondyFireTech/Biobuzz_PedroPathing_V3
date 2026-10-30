@@ -79,9 +79,9 @@ public class AlignToPoseCommandSim extends CommandBase {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         headingController.reset();
         headingController.setPID(kP, kI, kD);
-
-        telemetryM.addData("INIT", "AimAtPoseCommand");
-        telemetryM.update();
+      //  drive.startTeleopDrive();
+//        telemetryM.addData("INIT", "AimAtPoseCommand");
+//        telemetryM.update();
     }
 
     @Override
@@ -111,15 +111,15 @@ public class AlignToPoseCommandSim extends CommandBase {
 
         double distToTarget = getDistanceToTarget(target, pose);
 
-        telemetryM.addData("Aim Dist2Tgt,in", distToTarget);
-        telemetryM.addData("AimDesiredHeading", Math.toDegrees(desiredHeading));
-        telemetryM.addData("Aim Turn", turn);
-        telemetryM.addData("Aim Target X", target.x());
-        telemetryM.addData("Aim Target Y", target.y());
-        telemetryM.addData("FWD", forward.getAsDouble());
-        telemetryM.addData("STRFE", strafe.getAsDouble());
-        telemetryM.addData("Aim TurnErr", Math.toDegrees(error));
-        drive.showTelemetry(telemetryM);
+//        telemetryM.addData("Aim Dist2Tgt,in", distToTarget);
+//        telemetryM.addData("AimDesiredHeading", Math.toDegrees(desiredHeading));
+//        telemetryM.addData("Aim Turn", turn);
+//        telemetryM.addData("Aim Target X", target.x());
+//        telemetryM.addData("Aim Target Y", target.y());
+//        telemetryM.addData("FWD", forward.getAsDouble());
+//        telemetryM.addData("STRFE", strafe.getAsDouble());
+//        telemetryM.addData("Aim TurnErr", Math.toDegrees(error));
+//        drive.showTelemetry(telemetryM);
         // Pedro: positive turn = counterclockwise, matching positive heading error here.
         drive.drive(forward.getAsDouble(), strafe.getAsDouble(), turn);
     }

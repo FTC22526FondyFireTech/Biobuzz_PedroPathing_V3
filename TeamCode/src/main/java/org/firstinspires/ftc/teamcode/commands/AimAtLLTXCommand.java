@@ -33,7 +33,7 @@ import java.util.function.DoubleSupplier;
  * Requires the drive subsystem, so it interrupts the default DriveCommand while active and
  * the default command resumes when this command ends.
  */
-//@Configurable
+@Configurable
 public class AimAtLLTXCommand extends CommandBase {
 
     // Live-tunable from the Panels Configurables tab.
@@ -89,8 +89,6 @@ public class AimAtLLTXCommand extends CommandBase {
         double turn = 0;
         if (result.isValid()) {
             double tx = result.getTx();
-
-
             turn = headingController.calculate(tx, 0);
             turn = Math.max(-maxTurn, Math.min(maxTurn, turn));
         }

@@ -81,24 +81,27 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         double x = follower.pose().x();
         double y = follower.pose().y();
 
-        if (x < 72 && y >= 72) {
-            GlobalData.setCurrentOdometryZone(0);
-            GlobalData.setActiveHiveTargetPose(FieldConstants.redScoringHiveTargetPose);
-            GlobalData.setActiveStartPose(FieldConstants.redScoringLoHiveStartPose);
-        } else if (x < 72 && y < 72) {
-            GlobalData.setCurrentOdometryZone(1);
-            GlobalData.setActiveHiveTargetPose(FieldConstants.redAudienceHiveTargetPose);
-            GlobalData.setActiveStartPose(FieldConstants.redAudienceHiHiveStartPose);
-        } else if (x >= 72 && y < 72) {
-            GlobalData.setCurrentOdometryZone(2);
-            GlobalData.setActiveHiveTargetPose(FieldConstants.toBlue(FieldConstants.redAudienceHiveTargetPose));
-            GlobalData.setActiveStartPose(FieldConstants.toBlue(FieldConstants.redScoringLoHiveStartPose));
-        } else if (x >= 72 && y > 72) {
-            GlobalData.setCurrentOdometryZone(3);
-            GlobalData.setActiveHiveTargetPose(FieldConstants.toBlue(FieldConstants.redScoringHiveTargetPose));
-            GlobalData.setActiveStartPose(FieldConstants.toBlue(FieldConstants.redAudienceHiHiveStartPose));
+        if (GlobalData.isRedAlliance()) {
+            if (y >= 72) {
+                GlobalData.setCurrentOdometryZone(0);
+                GlobalData.setActiveHiveTargetPose(FieldConstants.redScoringHiveTargetPose);
+                GlobalData.setActiveStartPose(FieldConstants.redScoringLoHiveStartPose);
+            } else if (y < 72) {
+                GlobalData.setCurrentOdometryZone(1);
+                GlobalData.setActiveHiveTargetPose(FieldConstants.redAudienceHiveTargetPose);
+                GlobalData.setActiveStartPose(FieldConstants.redAudienceHiHiveStartPose);
+            }
+        } else {
+            if (y <= 72) {
+                GlobalData.setCurrentOdometryZone(2);
+                GlobalData.setActiveHiveTargetPose(FieldConstants.toBlue(FieldConstants.redScoringHiveTargetPose));
+                GlobalData.setActiveStartPose(FieldConstants.toBlue(FieldConstants.redScoringLoHiveStartPose));
+            } else if (y > 72) {
+                GlobalData.setCurrentOdometryZone(3);
+                GlobalData.setActiveHiveTargetPose(FieldConstants.toBlue(FieldConstants.redAudienceHiveTargetPose));
+                GlobalData.setActiveStartPose(FieldConstants.toBlue(FieldConstants.redAudienceHiHiveStartPose));
+            }
         }
-
     }
 
     public void showTelemetry(TelemetryManager telemetryM) {

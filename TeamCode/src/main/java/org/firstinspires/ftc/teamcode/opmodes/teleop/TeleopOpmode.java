@@ -12,6 +12,7 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.seattlesolvers.solverslib.util.Timing;
 
+import org.firstinspires.ftc.teamcode.commands.AimAtLLTXCommand;
 import org.firstinspires.ftc.teamcode.commands.AlignToPoseCommand;
 import org.firstinspires.ftc.teamcode.commands.CheckIfOdometryZoneTagsSeen;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
@@ -172,11 +173,15 @@ public class TeleopOpmode extends CommandOpMode {
                                                 Commands.runOnce(() -> follower.setPose(drive.getPose())),
                                                 new FollowPathCommand(follower,
                                                         PedroPaths.line(drive.getPose(), GlobalData.getActiveStartPose()),
-                                                        false),
-                                                new AlignToPoseCommand(drive)),
+                                                        false)),
+                                        // new AlignToPoseCommand(drive)),
                                         Collections.emptyList()));
 
-        //  driverGamepad.getGamepadButton(GamepadKeys.Button.a)
+        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new AimAtLLTXCommand(drive,
+                        vss,
+                        () -> driverGamepad.getLeftY(),
+                        () -> driverGamepad.getLeftX()));
 
         double rpmChange = 100;
         driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)

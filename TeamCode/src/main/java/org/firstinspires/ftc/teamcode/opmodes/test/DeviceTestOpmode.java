@@ -199,6 +199,9 @@ public class DeviceTestOpmode extends CommandOpMode {
             telemetryM.addData("PSTGTRPM", pss.getTargetRPM());
 
             telemetryM.addData("POLLENRPM", pss.getPollenShooterRPM());
+            telemetryM.addData("IntakeRPM", intake.getVelocityRPM());
+
+
 //            telemetryM.addData("DistFromOdometry", f3(dist));
 //            telemetryM.addData("AngleFromOdometry", f3(angle));
 //

@@ -143,8 +143,9 @@ public class TeleopOpmode extends CommandOpMode {
         driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
                         Commands.parallel(
-                                pss.runPollenShooterAtVelocityCommand(),
-                                nss.runNectarShooterAtVelocityCommand()));
+                                //    pss.runPollenShooterAtVelocityCommand(),
+                                nss.runNectarShooterAtVelocityCommand(),
+                                Commands.none()));
 
         rightTrigger.whenActive(
                         Commands.parallel(
@@ -178,10 +179,19 @@ public class TeleopOpmode extends CommandOpMode {
                                         Collections.emptyList()));
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new AimAtLLTXCommand(drive,
-                        vss,
-                        () -> driverGamepad.getLeftY(),
-                        () -> driverGamepad.getLeftX()));
+                .whenPressed(Commands.sequence(
+                        nss.shootOneNectarCommand(),
+                        Commands.waitMillis(1000),
+                        nss.shootOneNectarCommand(),
+                        Commands.waitMillis(1000),
+                        nss.shootOneNectarCommand()
+                ));
+
+
+//                .whenPressed(new AimAtLLTXCommand(drive,
+//                        vss,
+//                        () -> driverGamepad.getLeftY(),
+//                        () -> driverGamepad.getLeftX()));
 
         double rpmChange = 100;
         driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
@@ -210,11 +220,13 @@ public class TeleopOpmode extends CommandOpMode {
             double angle = 0;
             dist = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
             angle = getAngleToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
-
-            telemetryM.addData("Target Distance Inches", dist);
-            telemetryM.addData("Target Angle Degrees", angle);
-            telemetryM.addData("Odometry Zone", GlobalData.getCurrentOdometryZone());
-            telemetryM.addData("Vision Zone", vss.isInCurrentZone(vss.getFiducialResults()));
+//            telemetryM.addData("NectarTgtRPM", nss.getTargetRPM());
+//            telemetryM.addData("NectarActRPM", nss.getNectarShooterRPM());
+//
+//            telemetryM.addData("Target Distance Inches", dist);
+//            telemetryM.addData("Target Angle Degrees", angle);
+//            telemetryM.addData("Odometry Zone", GlobalData.getCurrentOdometryZone());
+//            telemetryM.addData("Vision Zone", vss.isInCurrentZone(vss.getFiducialResults()));
 
             if (Configurables.showDriveTelemetry)
                 drive.showTelemetry(telemetryM);

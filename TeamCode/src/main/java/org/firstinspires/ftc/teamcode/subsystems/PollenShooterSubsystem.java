@@ -16,6 +16,7 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import com.seattlesolvers.solverslib.util.InterpLUT;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.simulator.simulators.MotorSimulator;
 import org.firstinspires.ftc.teamcode.utils.Configurables;
 
@@ -186,6 +187,9 @@ public class PollenShooterSubsystem extends SubsystemBase {
         else return 0;
     }
 
+    public  double getPollenCurrent(){
+        return pollenShooterMotor.getCurrent(CurrentUnit.AMPS);
+    }
     public double getTargetRPM() {
         return targetRPM;
     }
@@ -256,6 +260,9 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public void showTelemetry(TelemetryManager telemetryM) {
         telemetryM.addData("PollenTargetRPM", f0(getTargetRPM()));
         telemetryM.addData("PollenActualRPM", f0(getPollenShooterRPM()));
+        telemetryM.addData("PollenActualRPM", f0(getPollenShooterRPM()));
+        telemetryM.addData("PollenAmps", f3(getPollenCurrent()));
+
         if (Configurables.showPollenDebug) {
             telemetryM.addData("PollenFF", ff);
             telemetryM.addData("PollenPID", pidout);

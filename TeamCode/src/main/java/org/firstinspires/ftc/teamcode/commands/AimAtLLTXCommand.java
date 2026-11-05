@@ -37,9 +37,12 @@ import java.util.function.DoubleSupplier;
 public class AimAtLLTXCommand extends CommandBase {
 
     // Live-tunable from the Panels Configurables tab.
-    public static double headingkP = .5;
+    public static double headingkP = .04;
     public static double headingkI = 0.0;
     public static double headingkD = 0.0;
+
+    public static double nectarOffset = -4;
+    public static double pollenOffset = 0;
 
 
     public static boolean setPID = false;
@@ -62,11 +65,13 @@ public class AimAtLLTXCommand extends CommandBase {
     private final DoubleSupplier strafe;
     private final PIDController headingController = new PIDController(headingkP, headingkI, headingkD);
     TelemetryManager telemetryM;
+    private final boolean nectar;
 
-    public AimAtLLTXCommand(MecanumDriveSubsystem drive, VisionSubsysytem vss,
+    public AimAtLLTXCommand(MecanumDriveSubsystem drive, VisionSubsysytem vss, boolean nectar,
                             DoubleSupplier forward, DoubleSupplier strafe) {
         this.drive = drive;
         this.vss = vss;
+        this.nectar = nectar;
         this.forward = forward;
         this.strafe = strafe;
         addRequirements(drive);
@@ -89,7 +94,9 @@ public class AimAtLLTXCommand extends CommandBase {
         double turn = 0;
         if (result.isValid()) {
             double tx = result.getTx();
-            turn = headingController.calculate(tx, 0);
+            if (nectar)
+                turn = headingController.calculate(tx, nectarOffset);
+            else turn = headingController.calculate(tx, pollenOffset);
             turn = Math.max(-maxTurn, Math.min(maxTurn, turn));
         }
         drive.drive(forward.getAsDouble(), strafe.getAsDouble(), turn);

@@ -244,6 +244,7 @@ public class VisionSubsysytem extends SubsystemBase {
     }
 
     public void showTelemetry(TelemetryManager telemetryM){
+        telemetryM.addData("TX", getLLResults().getTx());
         telemetryM.addData("LL Temperature", getTemoerature());
         telemetryM.addData("LL CPU", getCpu());
         telemetryM.addData("LL FPS", getFPS());

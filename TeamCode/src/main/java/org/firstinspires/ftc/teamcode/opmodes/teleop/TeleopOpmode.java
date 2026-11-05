@@ -125,8 +125,8 @@ public class TeleopOpmode extends CommandOpMode {
                 .whileActiveOnce(GlobalData.toggleAllianceCommand());
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.START)
-                .whileActiveOnce(drive.setPoseCommand(resetOdometry));
-
+                // .whileActiveOnce(drive.setPoseCommand(resetOdometry));
+                .whenPressed(drive.setPoseCommand(FieldConstants.redAudienceHiHiveStartPose));
 
         //Triggers
 
@@ -137,37 +137,44 @@ public class TeleopOpmode extends CommandOpMode {
                 .whenInactive(intake.stopIntakeCommand())
                 .whenInactive(intake.armUpCommand());
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(intake.toggleArmPositionCommand());
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
                         Commands.parallel(
-                                //    pss.runPollenShooterAtVelocityCommand(),
+                                pss.runPollenShooterAtVelocityCommand(),
                                 nss.runNectarShooterAtVelocityCommand(),
                                 Commands.none()));
 
         rightTrigger.whenActive(
                         Commands.parallel(
                                 pss.shootPollenCommand(),
-                                nss.shootNectarCommand()))
-                .whenInactive(
+                                nss.shootNectarCommand()));
+
+                /*.whenInactive(
                         Commands.parallel(
                                 pss.holdPollenCommand(),
-                                nss.holdNectarCommand()));
+                                nss.holdNectarCommand()));*/
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.Y)
+        driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(Commands.parallel(
                         pss.stopPollenShooterCommand(),
                         nss.stopNectarShooterCommand()));
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(Commands.defer(() ->
-                                new AlignToPoseCommand(drive),
-                        Collections.emptyList()));
+                .whileHeld(new AimAtLLTXCommand(drive,
+                        vss,true,
+                        () -> driverGamepad.getLeftY(),
+                        () -> driverGamepad.getLeftX()));
 
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.X)
+//                .whenPressed(Commands.defer(() ->
+//                                new AlignToPoseCommand(drive),
+//                        Collections.emptyList()));
+
+
+        driverGamepad.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(
                         Commands.defer
                                 (() -> Commands.sequence(
@@ -178,22 +185,21 @@ public class TeleopOpmode extends CommandOpMode {
                                         // new AlignToPoseCommand(drive)),
                                         Collections.emptyList()));
 
-        driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(Commands.sequence(
-                        nss.shootOneNectarCommand(),
-                        Commands.waitMillis(1000),
-                        nss.shootOneNectarCommand(),
-                        Commands.waitMillis(1000),
-                        nss.shootOneNectarCommand()
-                ));
 
 
-//                .whenPressed(new AimAtLLTXCommand(drive,
-//                        vss,
-//                        () -> driverGamepad.getLeftY(),
-//                        () -> driverGamepad.getLeftX()));
+        driverGamepad.getGamepadButton(
+                        GamepadKeys.Button.X)
+                .whenPressed(
+                        Commands.sequence(
+                                Commands.parallel(
+                                        nss.shootOneNectarCommand(), pss.shootOnePollenCommand()),
+                                Commands.waitMillis(1000),
+                                Commands.parallel(nss.shootOneNectarCommand(), pss.shootOnePollenCommand()),
+                                Commands.waitMillis(1000),
+                                Commands.parallel(nss.shootOneNectarCommand(), pss.shootOnePollenCommand())));
 
-        double rpmChange = 100;
+
+        double rpmChange = 10;
         driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(pss.changePollenTargetRPMCommand(rpmChange));
         driverGamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)

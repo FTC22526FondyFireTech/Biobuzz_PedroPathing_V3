@@ -29,15 +29,17 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public static double pollenShooterKi = 0;
     public static double pollenShooterKd = 0;
     public static boolean changePollenVelocityCoefficents = false;
-    private double targetRPM = 4000;
-    public static double autoShootRPM = 4000;
-    public static double autoSecondShootRPM = 3500;
+    private double targetRPM = 4500;
+    public static double autoShootRPM = 4500;
+    public static double autoSecondShootRPM = 4000;
 
-    public static double holdPosition = 0;
-    public static double shootPosition = .5;
+    public static double holdPosition = 0.45;
+    public static double shootPosition = 0;
     public double cpr;
     public MotorEx pollenShooterMotor;
     private MotorSimulator shooterMotorSim;
+
+    public static long shootDelayms = 250;
 
     private boolean direction;
 
@@ -235,6 +237,13 @@ public class PollenShooterSubsystem extends SubsystemBase {
 
     public Command shootPollenCommand() {
         return Commands.runOnce(() -> positionPollenShooter(shootPosition));
+    }
+
+    public Command shootOnePollenCommand() {
+        return Commands.sequence(
+                shootPollenCommand(),
+                Commands.waitMillis(shootDelayms),
+                holdPollenCommand());
     }
 
     public Command holdPollenCommand() {

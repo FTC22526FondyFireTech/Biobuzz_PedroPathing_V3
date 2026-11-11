@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.utils.Configurables;
 public class IntakeSubsystem extends SubsystemBase {
 
     public static double upPosition = 0;
+    public static double noNectarPosition = .3;
     public static double downPosition = .5;
     public Motor intakeMotor;
     private MotorSimulator intakeMotorSim;

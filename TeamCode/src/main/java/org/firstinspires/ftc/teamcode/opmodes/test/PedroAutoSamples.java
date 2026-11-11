@@ -10,15 +10,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.Commands;
 import com.seattlesolvers.solverslib.command.WaitCommand;
-import org.firstinspires.ftc.teamcode.utils.PedroPaths;
-import org.firstinspires.ftc.teamcode.commands.FollowPathCommand;
 
+import org.firstinspires.ftc.teamcode.commands.FollowPathCommand;
 import org.firstinspires.ftc.teamcode.simulator.SimulatorConstants;
 import org.firstinspires.ftc.teamcode.simulator.drivetrains.MecanumDriveSubsystemSimulation;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.utils.Configurables;
 import org.firstinspires.ftc.teamcode.utils.Constants;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
+import org.firstinspires.ftc.teamcode.utils.PedroPaths;
 
 /**
  * {@link MecanumDriveSubsystemSimulation} instead of real hardware - no robot required.

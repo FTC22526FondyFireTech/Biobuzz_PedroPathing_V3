@@ -4,14 +4,12 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.seattlesolvers.solverslib.command.CommandBase;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 
-import java.util.List;
 import java.util.function.DoubleSupplier;
 
 /**

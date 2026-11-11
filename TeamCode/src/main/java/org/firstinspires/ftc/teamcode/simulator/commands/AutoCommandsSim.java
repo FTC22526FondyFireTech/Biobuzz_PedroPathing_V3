@@ -9,7 +9,6 @@ import com.seattlesolvers.solverslib.command.WaitUntilCommand;
 import org.firstinspires.ftc.teamcode.simulator.drivetrains.MecanumDriveSubsystemSimulation;
 import org.firstinspires.ftc.teamcode.subsystems.NectarShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.VisionSubsysytem;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 
 public class AutoCommandsSim {

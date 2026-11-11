@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import android.telecom.TelecomManager;
-
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,9 +8,6 @@ import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.Commands;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.controller.PIDController;
-import com.seattlesolvers.solverslib.controller.wpilibcontroller.SimpleMotorFeedforward;
-import com.seattlesolvers.solverslib.gamepad.SlewRateLimiter;
-import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import com.seattlesolvers.solverslib.util.InterpLUT;
 
@@ -42,11 +37,10 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public static long shootDelayms = 250;
 
     private boolean direction;
-
-
     public PIDController pidController;
-
     public final double maxMotorRPM = 6000;
+
+    public double motorToLoadRatio = .5;
     private double maxShootRPM;
     private double minShootRPM;
     public double pidout;
@@ -87,8 +81,8 @@ public class PollenShooterSubsystem extends SubsystemBase {
         if (!Configurables.doSimulation) {
             pollenShooterMotor = new MotorEx(hardwareMap, "pollen");
             pollenShooterMotor.setInverted(true);
-            maxShootRPM = maxMotorRPM * .9;
-            minShootRPM = maxShootRPM / 2;
+            maxShootRPM = maxMotorRPM / motorToLoadRatio;
+            minShootRPM = maxShootRPM / 3;
             cpr = 28;
 
             pollenShootServo = hardwareMap.get(Servo.class, "pollenShoot");
@@ -163,7 +157,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
         if (!Configurables.doSimulation) {
             tst++;
             pidout = pidController.calculate(getPollenShooterRPM(), targetRPM);
-            ff = ffRatio * targetRPM;
+            ff = ffRatio * targetRPM * motorToLoadRatio;
             pollenShooterMotor.set(ff + pidout);
         } else shooterMotorSim.setPower(ff + pidout);
     }
@@ -189,9 +183,10 @@ public class PollenShooterSubsystem extends SubsystemBase {
         else return 0;
     }
 
-    public  double getPollenCurrent(){
+    public double getPollenCurrent() {
         return pollenShooterMotor.getCurrent(CurrentUnit.AMPS);
     }
+
     public double getTargetRPM() {
         return targetRPM;
     }

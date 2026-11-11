@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.math.Pose;
@@ -8,7 +7,6 @@ import com.seattlesolvers.solverslib.command.CommandBase;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
-import org.firstinspires.ftc.teamcode.utils.Configurables;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 
 import java.util.function.DoubleSupplier;

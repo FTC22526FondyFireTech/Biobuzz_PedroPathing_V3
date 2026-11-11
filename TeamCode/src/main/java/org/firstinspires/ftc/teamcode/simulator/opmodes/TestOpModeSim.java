@@ -11,10 +11,7 @@ import com.seattlesolvers.solverslib.command.Commands;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.teamcode.utils.Configurables;
-import org.firstinspires.ftc.teamcode.utils.PedroPaths;
 import org.firstinspires.ftc.teamcode.commands.FollowPathCommand;
-
 import org.firstinspires.ftc.teamcode.simulator.SimulatorConstants;
 import org.firstinspires.ftc.teamcode.simulator.commands.AlignToPoseCommandSim;
 import org.firstinspires.ftc.teamcode.simulator.commands.DriveSimCommand;
@@ -25,6 +22,7 @@ import org.firstinspires.ftc.teamcode.subsystems.NectarShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;
 import org.firstinspires.ftc.teamcode.utils.FieldConstants;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
+import org.firstinspires.ftc.teamcode.utils.PedroPaths;
 
 import java.util.Arrays;
 import java.util.Collections;

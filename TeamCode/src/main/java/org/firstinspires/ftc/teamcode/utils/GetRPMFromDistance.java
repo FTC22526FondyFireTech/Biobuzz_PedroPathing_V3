@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.utils;
 
 import com.pedropathing.math.Pose;
 
-import org.firstinspires.ftc.teamcode.simulator.drivetrains.MecanumDriveSubsystemSimulation;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.NectarShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PollenShooterSubsystem;

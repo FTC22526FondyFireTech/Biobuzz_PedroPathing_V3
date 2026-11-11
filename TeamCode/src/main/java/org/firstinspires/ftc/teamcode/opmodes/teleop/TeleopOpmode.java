@@ -13,10 +13,7 @@ import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.seattlesolvers.solverslib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.commands.AimAtLLTXCommand;
-import org.firstinspires.ftc.teamcode.commands.AlignToPoseCommand;
-import org.firstinspires.ftc.teamcode.commands.CheckIfOdometryZoneTagsSeen;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.commands.DriveToPoseCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowPathCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
@@ -30,7 +27,6 @@ import org.firstinspires.ftc.teamcode.utils.GPTrig;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 import org.firstinspires.ftc.teamcode.utils.PedroPaths;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;

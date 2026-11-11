@@ -3,15 +3,10 @@ package org.firstinspires.ftc.teamcode.utils;
 
 import com.bylazar.field.Style;
 import com.pedropathing.math.Pose;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.ConditionalCommand;
 import com.seattlesolvers.solverslib.command.InstantCommand;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 public class GlobalData {
 

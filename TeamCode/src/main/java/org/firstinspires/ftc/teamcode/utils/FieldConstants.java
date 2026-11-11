@@ -19,7 +19,7 @@ public class FieldConstants {
     public static double redLoadZoneYStart = 96;
 
     public final static double redHiveXCenter = 60;
-    public final static double redScoringHiveYCenter = 86;
+    public final static double redScoringHiveYCenter = 90;
     public final static double redAudienceHiveYCenter = 54;
     public static PoseFactory factory = PoseFactory.radians();
 

@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands;
+
 import com.pedropathing.math.Pose;
 import com.seattlesolvers.solverslib.command.CommandBase;
 import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.util.Timing;
 
-import org.firstinspires.ftc.teamcode.simulator.drivetrains.MecanumDriveSubsystemSimulation;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 import java.util.concurrent.TimeUnit;

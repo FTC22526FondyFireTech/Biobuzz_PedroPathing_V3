@@ -129,6 +129,7 @@ public class TeleopOpmode extends CommandOpMode {
         leftTrigger = new GPTrig(driverGamepad, GPTrig.Side.LEFT);
         rightTrigger = new GPTrig(driverGamepad, GPTrig.Side.RIGHT);
 
+        // drive: left trigger should be intake
         leftTrigger.whenActive(intake.runIntakeCommand())
                 .whenInactive(intake.stopIntakeCommand())
                 .whenInactive(intake.armUpCommand());
@@ -136,6 +137,7 @@ public class TeleopOpmode extends CommandOpMode {
         driverGamepad.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(intake.toggleArmPositionCommand());
 
+        // driver: right bumper should be start shooter
         driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
                         Commands.parallel(
@@ -143,16 +145,18 @@ public class TeleopOpmode extends CommandOpMode {
                                 nss.runNectarShooterAtVelocityCommand(),
                                 Commands.none()));
 
+        // driver: right trigger should be run shooter
         rightTrigger.whenActive(
                         Commands.parallel(
                                 pss.shootPollenCommand(),
-                                nss.shootNectarCommand()));
+                                nss.shootNectarCommand()))
 
-                /*.whenInactive(
+                .whenInactive(
                         Commands.parallel(
                                 pss.holdPollenCommand(),
-                                nss.holdNectarCommand()));*/
+                                nss.holdNectarCommand()));
 
+        // driver: left bumper should be stop shooter
         driverGamepad.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(Commands.parallel(
                         pss.stopPollenShooterCommand(),
@@ -160,7 +164,7 @@ public class TeleopOpmode extends CommandOpMode {
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.B)
                 .whileHeld(new AimAtLLTXCommand(drive,
-                        vss,true,
+                        vss, true,
                         () -> driverGamepad.getLeftY(),
                         () -> driverGamepad.getLeftX()));
 
@@ -180,7 +184,6 @@ public class TeleopOpmode extends CommandOpMode {
                                                         false)),
                                         // new AlignToPoseCommand(drive)),
                                         Collections.emptyList()));
-
 
 
         driverGamepad.getGamepadButton(

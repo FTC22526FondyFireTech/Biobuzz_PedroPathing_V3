@@ -20,13 +20,13 @@ import java.util.Locale;
 @Configurable
 public class PollenShooterSubsystem extends SubsystemBase {
 
-    public static double pollenShooterKp = 0.001;
+    public static double pollenShooterKp = 0.006;
     public static double pollenShooterKi = 0;
     public static double pollenShooterKd = 0;
     public static boolean changePollenVelocityCoefficents = false;
     private double targetRPM = 4500;
-    public static double autoShootRPM = 4500;
-    public static double autoSecondShootRPM = 4000;
+    public static double autoShootRPM = 5000;
+    public static double autoSecondShootRPM = 5000;
 
     public static double holdPosition = 0.45;
     public static double shootPosition = 0;
@@ -156,7 +156,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public void runPollenShooterAtVelocity() {
         if (!Configurables.doSimulation) {
             tst++;
-            pidout = pidController.calculate(getPollenShooterRPM(), targetRPM);
+            pidout = pidController.calculate(getPollenShooterRPM(), targetRPM*motorToLoadRatio);
             ff = ffRatio * targetRPM * motorToLoadRatio;
             pollenShooterMotor.set(ff + pidout);
         } else shooterMotorSim.setPower(ff + pidout);
@@ -199,7 +199,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
      */
     public void setTargetRPM(double RPM) {
         targetRPM = RPM;
-        pidController.setSetPoint(targetRPM);
+        pidController.setSetPoint(targetRPM * motorToLoadRatio);
     }
 
     public Command setTargetRPMCommand(double RPM) {
@@ -264,12 +264,14 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public void showTelemetry(TelemetryManager telemetryM) {
         telemetryM.addData("PollenTargetRPM", f0(getTargetRPM()));
         telemetryM.addData("PollenActualRPM", f0(getPollenShooterRPM()));
-        telemetryM.addData("PollenActualRPM", f0(getPollenShooterRPM()));
+
         telemetryM.addData("PollenAmps", f3(getPollenCurrent()));
 
         if (Configurables.showPollenDebug) {
             telemetryM.addData("PollenFF", ff);
             telemetryM.addData("PollenPID", pidout);
+            telemetryM.addData("PollenPct",pollenShooterMotor.get());
+            telemetryM.addData("PollenVelerr",getVelocityError());
         }
     }
 }

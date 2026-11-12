@@ -6,6 +6,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
@@ -42,6 +43,7 @@ import java.util.Locale;
  *
  */
 @Autonomous(name = "Sim Low Hive Start", group = "Sim")
+@Disabled
 public class LowHiveStartSim extends CommandOpMode {
 
     private MecanumDriveSubsystemSimulation driveSim;

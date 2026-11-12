@@ -6,6 +6,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
@@ -49,6 +50,8 @@ import java.util.Collections;
  *
  */
 @Autonomous(name = "Sim Raised Hive Start Pickup Shoot Park", group = "Sim")
+
+@Disabled
 public class RaisedHiveStartPickupShootParkSim extends CommandOpMode {
     private MecanumDriveSubsystemSimulation driveSim;
     private IntakeSubsystem intake;

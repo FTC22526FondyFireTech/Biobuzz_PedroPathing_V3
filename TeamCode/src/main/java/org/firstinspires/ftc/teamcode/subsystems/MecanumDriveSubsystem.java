@@ -63,7 +63,8 @@ public class MecanumDriveSubsystem extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        follower.update();
+        if (follower != null)
+            follower.update();
         if (et.seconds() > .5) {
             setActiveHiveTargetPose();
             et.reset();
@@ -71,8 +72,8 @@ public class MecanumDriveSubsystem extends SubsystemBase {
         if (GlobalData.autoHasRun) GlobalData.robotPose = getPose();
 
         Drawing.drawRobot(getPose(), GlobalData.robotLook);
-        Drawing.drawLine(getPose().x(),getPose().y(),
-                GlobalData.getActiveHiveTargetPose().x(),GlobalData.getActiveHiveTargetPose().y());
+        Drawing.drawLine(getPose().x(), getPose().y(),
+                GlobalData.getActiveHiveTargetPose().x(), GlobalData.getActiveHiveTargetPose().y());
         Drawing.sendPacket();
     }
 
@@ -141,7 +142,8 @@ public class MecanumDriveSubsystem extends SubsystemBase {
     public void drive(double forward, double strafe, double turn) {
         if (!teleopDriveActive) startTeleopDrive();
         if (isRobotCentric) follower.manual(forward, strafe, turn);
-        else follower.manual(ManualDrive.fieldCentric(forward, strafe, turn, follower.pose().heading()));
+        else
+            follower.manual(ManualDrive.fieldCentric(forward, strafe, turn, follower.pose().heading()));
     }
 
     public void stop() {

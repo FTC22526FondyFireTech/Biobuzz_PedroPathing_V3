@@ -20,7 +20,7 @@ import java.util.Locale;
 @Configurable
 public class NectarShooterSubsystem extends SubsystemBase {
 
-    public static double nectarShooterKp = 0.001;
+    public static double nectarShooterKp = 0.007;
     public static double nectarShooterKi = 0;
     public static double nectarShooterKd = 0;
     public static boolean changeNectarVelocityCoefficients = false;
@@ -38,7 +38,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
 
     public PIDController pidController;
 
-    private double targetRPM = 4000;
+    private double targetRPM = 5400;
     public double maxMotorRPM = 6000;
     public double motorToLoadRatio = .5;
     private double maxShootRPM;
@@ -148,7 +148,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
      */
     public void runNectarShooterAtVelocity() {
         tst++;
-        pidout = pidController.calculate(getNectarShooterRPM(), targetRPM);
+        pidout = pidController.calculate(getNectarShooterRPM(), targetRPM * motorToLoadRatio);
         ff = ffRatio * targetRPM * motorToLoadRatio;
         if (!Configurables.doSimulation)
             nectarShooterMotor.set(ff + pidout);
@@ -203,6 +203,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
         if (tempRPM < minShootRPM) tempRPM = minShootRPM;
         setTargetRPM(tempRPM);
     }
+
     public Command changeNectarTargetRPMCommand(double val) {
         return Commands.runOnce(() -> changeTargetRPM(val));
     }

@@ -31,6 +31,8 @@ public class FieldConstants {
             factory.of(redHiveXCenter,
                     robotLength / 2,
                     1.5 * Math.PI);
+    public static Pose redScoringCornerStartPose =
+            factory.of(12, 133, Math.PI /2);
 
 
     //Park poses
@@ -42,7 +44,6 @@ public class FieldConstants {
             factory.of(loadZoneXWidth,
                     redLoadZoneYStart,
                     Math.PI);
-
 
     public static Pose redAudienceParkPoseFromStart =
             factory.of(loadZoneXWidth,

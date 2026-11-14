@@ -34,7 +34,7 @@ public class ColorMatch {
 
     // ---- Tuning values ----
     public static float GAIN = 8.0f;                 // Higher = brighter readings. 2-15 is typical.
-    public static double DETECT_DISTANCE_CM = 4.0;   // Object must be closer than this to classify/match.
+    public static double DETECT_DISTANCE_IN = 1.5;   // Object must be closer than this to classify/match.
     public static float MIN_SATURATION = 0.30f;      // Below this, hue classifier reports WHITE.
     public static double MIN_CONFIDENCE = 0.95;      // Preset match must be at least this confident.
 
@@ -145,7 +145,7 @@ public class ColorMatch {
     private final DistanceSensor distanceSensor;
     private final float[] hsv = new float[3];
     private NormalizedRGBA lastColors;
-    private double lastDistanceCm = Double.MAX_VALUE;
+    private double lastDistanceInch = Double.MAX_VALUE;
 
     public ColorMatch(HardwareMap hardwareMap, String deviceName) {
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, deviceName);
@@ -160,7 +160,7 @@ public class ColorMatch {
     public void update() {
         lastColors = colorSensor.getNormalizedColors();
         Color.colorToHSV(lastColors.toColor(), hsv);
-        lastDistanceCm = distanceSensor.getDistance(DistanceUnit.CM);
+        lastDistanceInch = distanceSensor.getDistance(DistanceUnit.INCH);
     }
 
     public void setGain(float gain) {
@@ -181,10 +181,10 @@ public class ColorMatch {
     public float getHue()             { return hsv[0]; }  // 0-360 degrees
     public float getSaturation()      { return hsv[1]; }  // 0-1
     public float getValue()           { return hsv[2]; }  // 0-1
-    public double getDistanceCm()     { return lastDistanceCm; }
+    public double getDistanceInch()     { return lastDistanceInch; }
 
     public boolean isObjectPresent() {
-        return lastDistanceCm < DETECT_DISTANCE_CM;
+        return lastDistanceInch < DETECT_DISTANCE_IN;
     }
 
     /** Simple hue-range classification (alternative to matchColor()). */

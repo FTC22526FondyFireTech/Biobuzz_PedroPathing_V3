@@ -110,7 +110,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void positionArm(double position) {
         armTargetPosition = position;
-        if (Configurables.doSimulation)
+        if (!Configurables.doSimulation)
             armServo.setPosition(position);
     }
 

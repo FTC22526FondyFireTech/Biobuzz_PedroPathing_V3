@@ -135,7 +135,9 @@ public class TeleopOpmode extends CommandOpMode {
                 .whenInactive(intake.armUpCommand());
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(intake.toggleArmPositionCommand());
+                .whenPressed(Commands.defer(() -> (
+                                intake.toggleArmPositionCommand()),
+                        Collections.emptyList()));
 
         // driver: right bumper should be start shooter
         driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)

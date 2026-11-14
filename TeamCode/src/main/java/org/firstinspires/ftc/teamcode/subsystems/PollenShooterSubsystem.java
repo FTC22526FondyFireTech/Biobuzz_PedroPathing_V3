@@ -24,7 +24,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public static double pollenShooterKi = 0;
     public static double pollenShooterKd = 0;
     public static boolean changePollenVelocityCoefficents = false;
-    private double targetRPM = 4500;
+    private double targetRPM = 5000;
     public static double autoShootRPM = 5000;
     public static double autoSecondShootRPM = 5000;
 

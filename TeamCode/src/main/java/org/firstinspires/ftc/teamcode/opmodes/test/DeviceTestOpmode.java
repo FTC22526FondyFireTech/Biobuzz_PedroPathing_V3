@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.utils.Constants;
 import org.firstinspires.ftc.teamcode.utils.GPTrig;
 import org.firstinspires.ftc.teamcode.utils.GlobalData;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -118,10 +119,14 @@ public class DeviceTestOpmode extends CommandOpMode {
         testGP1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
                 .whenPressed(intake.stopIntakeCommand());
 
+        testGP1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(
+                        Commands.defer(
+                                () -> intake.stepArmPositionCommand(),
+                                Collections.emptyList()));
+
         testGP1.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(intake.armUpCommand());
-        testGP1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(intake.armDownCommand());
 
         testGP1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whileHeld(pss.jogPollenShooterCommand(.75));
@@ -183,7 +188,7 @@ public class DeviceTestOpmode extends CommandOpMode {
 
             drive.setRobotCentric(testGP1.getGamepadButton(
                     GamepadKeys.Button.RIGHT_BUMPER).get());
-            drive.showTelemetry(telemetryM);
+            //   drive.showTelemetry(telemetryM);
 
 
             telemetryM.addData("IsBusy", follower.isBusy());
@@ -192,7 +197,7 @@ public class DeviceTestOpmode extends CommandOpMode {
             double angle = 0;
             dist = getDistanceToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
             angle = getAngleToTarget(GlobalData.getActiveHiveTargetPose(), drive.getPose());
-
+            telemetryM.addData("ARMTGT", intake.getArmPosition());
             telemetryM.addData("PSOn", pss.isRunPollenShooterAtVelocity());
             telemetryM.addData("PSSPID", pss.pidout);
             telemetryM.addData("PSSSFF", pss.ff);

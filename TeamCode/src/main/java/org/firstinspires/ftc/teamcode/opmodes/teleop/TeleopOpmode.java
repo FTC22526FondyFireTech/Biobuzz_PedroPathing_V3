@@ -166,7 +166,7 @@ public class TeleopOpmode extends CommandOpMode {
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.B)
                 .whileHeld(new AimAtLLTXCommand(drive,
-                        vss, true,
+                        vss,
                         () -> driverGamepad.getLeftY(),
                         () -> driverGamepad.getLeftX()));
 

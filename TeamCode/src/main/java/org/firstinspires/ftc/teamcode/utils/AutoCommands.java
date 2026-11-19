@@ -18,7 +18,7 @@ public class AutoCommands {
     private final PollenShooterSubsystem pss;
     private final NectarShooterSubsystem nss;
 
-    private final double startShootRPM = 1500;
+    private final double startShootRPM = 5000;
 
 
     public AutoCommands(MecanumDriveSubsystem drive, PollenShooterSubsystem pss, NectarShooterSubsystem nss) {

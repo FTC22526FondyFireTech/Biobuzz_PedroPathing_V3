@@ -43,7 +43,7 @@ import java.util.Locale;
  *
  */
 @Autonomous(name = "Sim Low Hive Start", group = "Sim")
-@Disabled
+//@Disabled
 public class LowHiveStartSim extends CommandOpMode {
 
     private MecanumDriveSubsystemSimulation driveSim;

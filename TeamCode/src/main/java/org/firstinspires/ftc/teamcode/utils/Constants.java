@@ -55,48 +55,45 @@ public class Constants {
     // xPodOffset is the forward pod's offset and yPodOffset the strafe pod's offset from the
     // robot's center of rotation (Pedro 2's forwardPodY / strafePodX), in inches.
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
-        c.name.set(PINPOINT_NAME);
-        c.globalDistanceUnit.set(DistanceUnit.INCH);
-        c.offsetUnits.set(DistanceUnit.INCH);
+        c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        c.xPodOffset.set(6.5);
-        c.yPodOffset.set(-5.0);
+        c.xPodOffset.set(7.647303783987451);
+        c.yPodOffset.set(-5.179794191375493);
         c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        c.globalDistanceUnit.set(DistanceUnit.INCH);
+        c.offsetUnits.set(DistanceUnit.INCH);
     });
 
     // PLACEHOLDER values estimated from the Pedro 2 tuning so the follower can start (the
     // required fields below have no library default; leaving any unset throws "config variable
     // has not been set"). They are NOT tuned for Foresight: replace this whole block with the
     // Foresight AutoTune output before relying on path following on the robot.
-    public static ForesightConfig foresightConfig = new ForesightConfig(c -> {
-        // Pedro 2 translational kP: primary 0.075, secondary (near the target) 0.4
-        Controller primaryTranslationalForward = Controller.proportional(0.075);
-        Controller secondaryTranslationalForward = Controller.proportional(0.4);
-        Controller primaryTranslationalLateral = Controller.proportional(0.075);
-        Controller secondaryTranslationalLateral = Controller.proportional(0.4);
+    public static ForesightConfig foresightConfig = new ForesightConfig(
+            c -> {
+                Controller primaryTranslationalForward = Controller.proportional(0.3591438635626191);
+                Controller secondaryTranslationalForward = Controller.proportional(0.13269406108561208);
+                Controller primaryTranslationalLateral = Controller.proportional(0.5356608530714637);
+                Controller secondaryTranslationalLateral = Controller.proportional(0.19791237208830323);
 
-        c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));
-        c.strafeTranslational.set(Controller.piecewise(secondaryTranslationalLateral).put(2.5, primaryTranslationalLateral));
+                c.forwardTranslational.set(Controller.piecewise(secondaryTranslationalForward).put(2.5, primaryTranslationalForward));
+                c.strafeTranslational.set(Controller.piecewise(secondaryTranslationalLateral).put(2.5, primaryTranslationalLateral));
 
-        // ~1 / max velocity
-        c.coast.set(Controller.proportionalFeedforward(0.0124));
-        c.brake.set(Controller.proportionalFeedforward(0.0124));
+                c.coast.set(Controller.proportionalFeedforward(0.013108041631923409));
+                c.brake.set(Controller.proportionalFeedforward(0.011141835387134896));
 
-        // Pedro 2 heading kP 1.1
-        c.headingFeedback.set(Controller.proportional(1.1));
-        c.headingBrakeCoefficients.set(Vector2D.cartesian(0.0, 0.01));
+                c.headingFeedback.set(Controller.proportional(6.11374165671362));
+                c.headingBrakeCoefficients.set(Vector2D.cartesian(0.047601948215653465, 0.009077273998052313));
 
-        // Braking distance ~ v^2 / (2 * natural deceleration)
-        c.linearBrakeCoefficients.set(Matrix.diag(0.0, 0.0));
-        c.quadraticBrakeCoefficients.set(Matrix.diag(0.0117, 0.0095));
+                c.linearBrakeCoefficients.set(Matrix.diag(0.09582705708517975, 0.04009746703518385));
+                c.quadraticBrakeCoefficients.set(Matrix.diag(0.0017115373796200704, 0.002541639045977477));
 
-        // Pedro 2 xVelocity / yVelocity and |zero-power accelerations| (in/s, in/s^2)
-        c.maxAchievableForwardVelocity.set(80.73);
-        c.maxAchievableStrafeVelocity.set(58.54);
-        c.naturalForwardDeceleration.set(42.92);
-        c.naturalStrafeDeceleration.set(52.68);
-    });
+                c.maxAchievableForwardVelocity.set(74.4218813005448);
+                c.maxAchievableStrafeVelocity.set(52.986729487675326);
+                c.naturalForwardDeceleration.set(32.8495710346193);
+                c.naturalStrafeDeceleration.set(64.27901795338683);
+            }
+    );
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new Follower(

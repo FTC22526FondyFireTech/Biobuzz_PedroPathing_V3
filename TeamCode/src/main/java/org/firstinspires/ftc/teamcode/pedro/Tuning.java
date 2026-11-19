@@ -19,6 +19,14 @@ public class Tuning {
     }
 
     @Tuner
+    public static Procedure tests() {
+        return new Tests(
+                h -> new Mecanum(h, Constants.drivetrainConfig),
+                h -> new PinpointLocalizer(h, Constants.localizerConfig),
+                () -> new Foresight(Constants.foresightConfig));
+    }
+
+    @Tuner
     public static Procedure pinpointTuner() {
         return new PinpointTuner();
     }
@@ -28,13 +36,5 @@ public class Tuning {
         return new ForesightTuner(
                 h -> new PinpointLocalizer(h, Constants.localizerConfig),
                 h -> new Mecanum(h, Constants.drivetrainConfig));
-    }
-
-    @Tuner
-    public static Procedure tests() {
-        return new Tests(
-                h -> new Mecanum(h, Constants.drivetrainConfig),
-                h -> new PinpointLocalizer(h, Constants.localizerConfig),
-                () -> new Foresight(Constants.foresightConfig));
     }
 }

@@ -51,8 +51,7 @@ import java.util.Collections;
  *
  */
 @Autonomous(name = "Sim Raised Hive Start Pickup Park", group = "Sim")
-
-@Disabled
+//@Disabled
 public class RaisedHiveStartPickupParkSim extends CommandOpMode {
     private MecanumDriveSubsystemSimulation driveSim;
     private IntakeSubsystem intake;

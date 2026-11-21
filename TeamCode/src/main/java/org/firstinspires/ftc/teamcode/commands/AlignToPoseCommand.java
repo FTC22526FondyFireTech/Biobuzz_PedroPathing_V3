@@ -33,7 +33,7 @@ import java.util.function.DoubleSupplier;
 public class AlignToPoseCommand extends CommandBase {
 
     // Live-tunable from the Panels Configurables tab.
-    public static double kP = .35;
+    public static double kP = .55;
     public static double kI = 0.0;
     public static double kD = 0.0;
     /**
@@ -101,7 +101,7 @@ public class AlignToPoseCommand extends CommandBase {
 
         if (Math.abs(error) > deadbandRad) {
             // Setpoint = error, measurement = 0, so the PID sees exactly the wrapped error.
-            turn = headingController.calculate(error, 0);
+            turn = headingController.calculate(0, error);
             turn = Math.max(-maxTurn, Math.min(maxTurn, turn));
         }
 

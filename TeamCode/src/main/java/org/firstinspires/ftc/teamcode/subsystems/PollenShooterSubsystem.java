@@ -164,7 +164,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
 
     public boolean pollenShooterAtSpeed() {
         if (!Configurables.doSimulation)
-            return Math.abs(getTargetRPM() - getPollenShooterRPM()) < getTargetRPM() / 10;
+            return Math.abs(getTargetRPM() - getPollenShooterRPM() * 2) < getTargetRPM() / 10;
         else return true;
     }
 
@@ -264,6 +264,7 @@ public class PollenShooterSubsystem extends SubsystemBase {
     public void showTelemetry(TelemetryManager telemetryM) {
         telemetryM.addData("PollenTargetRPM", f0(getTargetRPM()));
         telemetryM.addData("PollenActualRPM", f0(getPollenShooterRPM()));
+        telemetryM.addData("PollenAtSpeed", (pollenShooterAtSpeed()));
 
         telemetryM.addData("PollenAmps", f3(getPollenCurrent()));
 

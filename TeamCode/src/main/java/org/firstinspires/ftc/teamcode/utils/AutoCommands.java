@@ -29,7 +29,7 @@ public class AutoCommands {
 
     public Command autoShootPollenCommand() {
         return Commands.sequence(
-                pss.setTargetRPMCommand(startShootRPM),
+                //pss.setTargetRPMCommand(startShootRPM),
                 pss.runPollenShooterAtVelocityCommand(),
                 new WaitUntilCommand(pss::pollenShooterAtSpeed),
                 pss.shootPollenCommand(),

@@ -170,9 +170,12 @@ public class RaisedHiveStartPickupPark extends CommandOpMode {
                         intake.armDownCommand()),
                 checkSequenceStepCommand(),
                 new WaitCommand(1000),
-                new FollowPathCommand(follower, pickupFlower).setGlobalMaxPower(0.25),
+                new FollowPathCommand(follower, pickupFlower).setGlobalMaxPower(0.25).withTimeout(1000),
                 new WaitCommand(1500),
                 new FollowPathCommand(follower, retractFlower),
+                new WaitCommand(250),
+                intake.armUpCommand(),
+                intake.stopIntakeCommand(),
                 new WaitCommand(250),
                 checkSequenceStepCommand());
     }
@@ -235,6 +238,7 @@ public class RaisedHiveStartPickupPark extends CommandOpMode {
             telemetryM.addData("Shooting", pss.shooterServoTargetPosition == PollenShooterSubsystem.shootPosition);
             telemetryM.addData("Intake Running", intake.intakeRunning);
             telemetryM.addData("Intake Arm Down", intake.getArmPosition() == IntakeSubsystem.downPosition);
+            telemetryM.addData("PollenAtSpeed", (pss.pollenShooterAtSpeed()));
 
             telemetryM.addData("SeqStep", seqStep);
 

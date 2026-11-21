@@ -13,6 +13,7 @@ import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.seattlesolvers.solverslib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.commands.AimAtLLTXCommand;
+import org.firstinspires.ftc.teamcode.commands.AlignToPoseCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowPathCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
@@ -165,15 +166,9 @@ public class TeleopOpmode extends CommandOpMode {
                         nss.stopNectarShooterCommand()));
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.B)
-                .whileHeld(new AimAtLLTXCommand(drive,
-                        vss,
-                        () -> driverGamepad.getLeftY(),
-                        () -> driverGamepad.getLeftX()));
-
-
-//                .whenPressed(Commands.defer(() ->
-//                                new AlignToPoseCommand(drive),
-//                        Collections.emptyList()));
+                .whileHeld(Commands.defer(() ->
+                              new AlignToPoseCommand(drive),
+                        Collections.emptyList()));
 
 
         driverGamepad.getGamepadButton(GamepadKeys.Button.Y)

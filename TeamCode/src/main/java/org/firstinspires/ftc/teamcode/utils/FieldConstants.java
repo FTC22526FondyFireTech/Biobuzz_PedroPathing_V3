@@ -13,7 +13,7 @@ public class FieldConstants {
     public final static double robotArmLengthAdder = 6;
     public final static double robotWidth = 18;
 
-    public final static double flowerApproachClearance = 12;
+    public final static double flowerApproachClearance = 15;
     public static double loadZoneYLength = 24;
     public static double loadZoneXWidth = 12;
     public static double redLoadZoneYStart = 96;
@@ -66,8 +66,9 @@ public class FieldConstants {
 
     public static Pose scoringWallFlowerApproachPose =
             factory.of(scoringWallFlowerPose.x(),
-                    fieldLength - robotLength / 2 - robotArmLengthAdder - flowerApproachClearance,
+                    fieldLength  - robotArmLengthAdder - flowerApproachClearance,
                     Math.PI / 2);
+    //robotLength / 2
 
 
     //Shoot poses
@@ -78,6 +79,7 @@ public class FieldConstants {
                     Math.toRadians(105));
     public static Pose scoringWallFlowerApproachControlPointPose = factory.of(55, 114, 0);
 
+    public static Pose scoringWallFlowerSecondShootControlPointPose = factory.of(46, 97, 0);
 
     //Control Points for path from alliance wall to scoring wall
     private final Pose point2Control1 = factory.of(28, 65, 0);

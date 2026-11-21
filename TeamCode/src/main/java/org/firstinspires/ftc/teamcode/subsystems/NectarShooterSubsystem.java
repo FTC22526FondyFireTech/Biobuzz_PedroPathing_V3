@@ -173,7 +173,7 @@ public class NectarShooterSubsystem extends SubsystemBase {
 
     public boolean nectarShooterAtSpeed() {
         if (!Configurables.doSimulation)
-            return Math.abs(getTargetRPM() - getNectarShooterRPM()) < getTargetRPM() / 10;
+            return Math.abs(getTargetRPM() - getNectarShooterRPM() * 2) < getTargetRPM() / 10;
         else return true;
     }
 
@@ -259,6 +259,8 @@ public class NectarShooterSubsystem extends SubsystemBase {
     public void showTelemetry(TelemetryManager telemetryM) {
         telemetryM.addData("NectarTargetRPM", f0(getTargetRPM()));
         telemetryM.addData("NectarActualRPM", f0(getNectarShooterRPM()));
+        telemetryM.addData("NectarAtSpeed", (nectarShooterAtSpeed()));
+
         telemetryM.addData("NectarAmps", f3(getNectarCurrent()));
 
         if (Configurables.showNectarDebug) {

@@ -53,8 +53,10 @@ public class LowHiveStartShootPickupShootPark extends CommandOpMode {
     private VisionSubsysytem vss;
     private Follower follower;
     TelemetryManager telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-    private Pose startPose, controlPointPose, flowerApproachPose, flowerPickupPose, secondShootPose, parkControlPointPose, parkPose;
-    private Path parkPath, approachFlowerPath, pickupFlowerPath, moveForSecondShootPath, parkAfterSecondShootPath;
+    private Pose startPose, controlPointPose, flowerApproachPose, flowerPickupPose, secondShootPose, altSecondShootPose,
+            altControlPointPose,
+            parkControlPointPose, parkPose;
+    private Path parkPath, approachFlowerPath, pickupFlowerPath, moveForSecondShootPath, altMoveForSecondShootPath, parkAfterSecondShootPath;
     private AutoCommands ac;
     private GetRPMFromDistance getPollenTargetRPMFromDistance;
     private ElapsedTime autoTimer;
@@ -106,12 +108,17 @@ public class LowHiveStartShootPickupShootPark extends CommandOpMode {
         flowerApproachPose = forAlliance(FieldConstants.scoringWallFlowerApproachPose, GlobalData.isBlueAlliance());
         flowerPickupPose = forAlliance(FieldConstants.scoringWallFlowerPickupPose, GlobalData.isBlueAlliance());
         secondShootPose = forAlliance(FieldConstants.scoringWallFlowerApproachPose, GlobalData.isBlueAlliance());
+        altSecondShootPose = forAlliance(FieldConstants.redScoringLoHiveStartPose, GlobalData.isBlueAlliance());
         parkPose = forAlliance(FieldConstants.redScoringParkPose, GlobalData.isBlueAlliance());
 
 
         controlPointPose = GlobalData.isBlueAlliance()
                 ? FieldConstants.toBlueXY(FieldConstants.scoringWallFlowerApproachControlPointPose)
                 : FieldConstants.scoringWallFlowerApproachControlPointPose;
+
+        altControlPointPose = GlobalData.isBlueAlliance()
+                ? FieldConstants.toBlueXY(FieldConstants.scoringWallFlowerSecondShootControlPointPose)
+                : FieldConstants.scoringWallFlowerSecondShootControlPointPose;
 
         parkControlPointPose = GlobalData.isBlueAlliance()
                 ? FieldConstants.toBlueXY(FieldConstants.lowHiveStartControlPointPose)
@@ -163,9 +170,8 @@ public class LowHiveStartShootPickupShootPark extends CommandOpMode {
                                                 shoot(),
                                                 checkSequenceStepCommand(),
                                                 pickup(),
-                                                checkSequenceStepCommand(),
+                                                //checkSequenceStepCommand(),
                                                 moveForSecondShoot(),
-                                                checkSequenceStepCommand(),
                                                 pss.setTargetRPMCommand(PollenShooterSubsystem.autoSecondShootRPM),
                                                 shoot(),
                                                 checkSequenceStepCommand(),
@@ -183,13 +189,15 @@ public class LowHiveStartShootPickupShootPark extends CommandOpMode {
                         new FollowPathCommand(follower, approachFlowerPath),
                         intake.runIntakeCommand(),
                         intake.armDownCommand()),
-                // checkSequenceStepCommand(),
-                new WaitCommand(1000),
-                new FollowPathCommand(follower, pickupFlowerPath).setGlobalMaxPower(0.25),
+                //checkSequenceStepCommand(),
+                new WaitCommand(500),
+                new FollowPathCommand(follower, pickupFlowerPath).setGlobalMaxPower(0.25).withTimeout(1000),
                 new WaitCommand(1500),
                 // checkSequenceStepCommand(),
-                new FollowPathCommand(follower, approachFlowerPath),
-                new WaitCommand(250));
+                new FollowPathCommand(follower,  altMoveForSecondShootPath),
+                new WaitCommand(250),
+                intake.armUpCommand(),
+                intake.stopIntakeCommand());
 
     }
 
@@ -203,8 +211,7 @@ public class LowHiveStartShootPickupShootPark extends CommandOpMode {
 
     public Command moveForSecondShoot() {
         return Commands.sequence(
-                new FollowPathCommand(follower, moveForSecondShootPath),
-                //  checkSequenceStepCommand(),
+                new FollowPathCommand(follower, altMoveForSecondShootPath),
                 Commands.parallel(
                         intake.stopIntakeCommand(),
                         intake.armUpCommand()),
@@ -219,9 +226,7 @@ public class LowHiveStartShootPickupShootPark extends CommandOpMode {
 
 
     private Command shoot() {
-        return Commands.sequence(
-                pss.setTargetRPMCommand(PollenShooterSubsystem.autoShootRPM),
-                ac.autoShootPollenCommand());
+        return ac.autoShootPollenCommand();
     }
 
 
@@ -265,8 +270,9 @@ public class LowHiveStartShootPickupShootPark extends CommandOpMode {
         parkPath = PedroPaths.curve(startPose, parkControlPointPose, parkPose);
         approachFlowerPath = PedroPaths.curve(startPose, controlPointPose, flowerApproachPose);
         pickupFlowerPath = PedroPaths.line(flowerApproachPose, flowerPickupPose);
-        moveForSecondShootPath = PedroPaths.line(flowerPickupPose, secondShootPose);
-        parkAfterSecondShootPath = PedroPaths.line(secondShootPose, parkPose);
+        //moveForSecondShootPath = PedroPaths.line(flowerPickupPose, secondShootPose);
+        altMoveForSecondShootPath = PedroPaths.curve(flowerPickupPose, altControlPointPose, altSecondShootPose);
+        parkAfterSecondShootPath = PedroPaths.curve(altSecondShootPose, parkControlPointPose, parkPose);
 
     }
 

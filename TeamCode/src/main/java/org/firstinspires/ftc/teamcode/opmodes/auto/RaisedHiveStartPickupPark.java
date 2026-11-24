@@ -144,7 +144,7 @@ public class RaisedHiveStartPickupPark extends CommandOpMode {
 
                 shoot(),
 
-                new CheckIfOdometryZoneTagsSeen(vss, false).withTimeout(5000),
+                new CheckIfOdometryZoneTagsSeen(vss, false).withTimeout(2500),
 
                 pickup(),
 

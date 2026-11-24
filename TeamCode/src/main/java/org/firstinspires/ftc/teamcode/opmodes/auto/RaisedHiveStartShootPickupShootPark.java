@@ -182,8 +182,8 @@ public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
                 new WaitCommand(250),
                 checkSequenceStepCommand(),
                 Commands.parallel(
-                        intake.stopIntakeCommand(),
-                        intake.armUpCommand()));
+                        intake.armUpCommand(),
+                        intake.stopIntakeCommand()));
     }
 
     public Command moveForMissedShoot() {
@@ -250,6 +250,7 @@ public class RaisedHiveStartShootPickupShootPark extends CommandOpMode {
             telemetryM.addData("Shooting", pss.shooterServoTargetPosition == PollenShooterSubsystem.shootPosition);
             telemetryM.addData("Intake Running", intake.intakeRunning);
             telemetryM.addData("Intake Arm Down", intake.getArmPosition() == IntakeSubsystem.downPosition);
+            telemetryM.addData("PollenAtSpeed", (pss.pollenShooterAtSpeed()));
 
             telemetryM.addData("SeqStep", seqStep);
 

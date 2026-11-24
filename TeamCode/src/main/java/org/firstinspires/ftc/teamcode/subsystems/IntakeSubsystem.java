@@ -17,7 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public static double upPosition = 0.05;
     public static double noNectarPosition = .3;
-    public static double downPosition = .5;
+    public static double downPosition = .4; // .5
     public Motor intakeMotor;
     private MotorSimulator intakeMotorSim;
     private boolean direction;

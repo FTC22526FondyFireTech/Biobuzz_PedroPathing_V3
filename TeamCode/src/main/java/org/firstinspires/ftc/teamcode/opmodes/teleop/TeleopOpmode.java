@@ -142,8 +142,12 @@ public class TeleopOpmode extends CommandOpMode {
 
         // driver: right bumper should be start shooter
         driverGamepad.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(
+                .whileHeld(
                         Commands.parallel(
+                                new AimAtLLTXCommand(drive,
+                                        vss,
+                                        () -> gamepad1.left_stick_y,
+                                        () -> -gamepad1.left_stick_x ),
                                 pss.runPollenShooterAtVelocityCommand(),
                                 nss.runNectarShooterAtVelocityCommand(),
                                 Commands.none()));
